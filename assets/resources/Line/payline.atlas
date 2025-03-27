@@ -1,0 +1,201 @@
+
+payline.png
+size: 63,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+imge/payline_db
+  rotate: false
+  xy: 1, 1
+  size: 61, 62
+  orig: 61, 62
+  offset: 0, 0
+  index: -1
+
+payline2.png
+size: 1736,84
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+imge/a/payline_a_1
+  rotate: false
+  xy: 761, 43
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_a_2
+  rotate: false
+  xy: 761, 1
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_a_3
+  rotate: false
+  xy: 883, 43
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_a_4
+  rotate: false
+  xy: 883, 1
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_a_5
+  rotate: false
+  xy: 1005, 43
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_a_6
+  rotate: false
+  xy: 1005, 1
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_a_7
+  rotate: false
+  xy: 1127, 43
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_a_8
+  rotate: false
+  xy: 1127, 1
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_a_9
+  rotate: false
+  xy: 1249, 43
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_b_1
+  rotate: false
+  xy: 1, 43
+  size: 150, 40
+  orig: 150, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_b_10
+  rotate: false
+  xy: 609, 1
+  size: 150, 40
+  orig: 150, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_b_2
+  rotate: false
+  xy: 1, 1
+  size: 150, 40
+  orig: 150, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_b_3
+  rotate: false
+  xy: 153, 43
+  size: 150, 40
+  orig: 150, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_b_4
+  rotate: false
+  xy: 153, 1
+  size: 150, 40
+  orig: 150, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_b_5
+  rotate: false
+  xy: 305, 43
+  size: 150, 40
+  orig: 150, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_b_6
+  rotate: false
+  xy: 305, 1
+  size: 150, 40
+  orig: 150, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_b_7
+  rotate: false
+  xy: 457, 43
+  size: 150, 40
+  orig: 150, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_b_8
+  rotate: false
+  xy: 457, 1
+  size: 150, 40
+  orig: 150, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_b_9
+  rotate: false
+  xy: 609, 43
+  size: 150, 40
+  orig: 150, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_c_1
+  rotate: false
+  xy: 1249, 1
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_c_2
+  rotate: false
+  xy: 1371, 43
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_c_3
+  rotate: false
+  xy: 1371, 1
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_c_4
+  rotate: false
+  xy: 1493, 43
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_c_5
+  rotate: false
+  xy: 1493, 1
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_c_6
+  rotate: false
+  xy: 1615, 43
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+imge/a/payline_c_7
+  rotate: false
+  xy: 1615, 1
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
