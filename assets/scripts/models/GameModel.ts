@@ -39,7 +39,11 @@ export class GameModel  {
         return this._downGrids[row][col];
     }
 
+    public ParseData(data:number[][])
+    {
+        
+            
+    }
+
 
 }
-
-

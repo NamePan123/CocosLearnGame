@@ -1,4 +1,4 @@
-import { _decorator, Component, game, Node, Prefab, resources } from 'cc';
+import { _decorator, Button, Component, game, Node, Prefab, resources } from 'cc';
 import { WholeSheetView } from '../views/WholeSheetView';
 import { GameModel } from '../models/GameModel';
 
@@ -11,9 +11,13 @@ export class GameController extends Component {
     @property(WholeSheetView) 
     public reelView:WholeSheetView;
 
+    @property(Button) 
+    public StartBtn:Button;
+
     start() {
         game.frameRate = 120;
         this.InitGame();
+        
     }
 
     update(deltaTime: number) {
@@ -30,7 +34,18 @@ export class GameController extends Component {
             }
 
             this.reelView.InitView(prefab, GameModel.Instance());
+            this.StartBtn.node.on(Node.EventType.TOUCH_END, this.onStartBtnClick, this);
         });
+    }
+
+
+    onStartBtnClick(){
+
+
+
+        //this.StartTime(0);
+        //this.testPrefab.InitView(SymbolDefine.Number_2, this.buildNode);
+        //GameModel.Instance().GetCellDataByIndex(3,4).SetIcon(SymbolDefine.Number_2);
     }
 }
 

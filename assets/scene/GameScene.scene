@@ -1401,7 +1401,7 @@
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": -0.06,
+      "x": -0.05,
       "y": 0.05
     },
     "_id": "82WwOQ5jlC85IVMDsnYig+"

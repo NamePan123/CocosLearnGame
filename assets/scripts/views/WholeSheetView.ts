@@ -12,14 +12,11 @@ const { ccclass, property } = _decorator;
 @ccclass('WholeSheetView')
 export class WholeSheetView extends GameTime {
 
-    @property(Node) 
-    public buildNode:Node;
-
+   
     @property(Label) 
     public TimeLabel:Label;
 
-    @property(Button) 
-    public StartBtn:Button;
+  
     
     @property([CellLineView]) 
     public  celllines:CellLineView[] = Array<CellLineView>(5); 
@@ -40,7 +37,7 @@ export class WholeSheetView extends GameTime {
         this.BindData(model);
         //测试
         let newNode = instantiate( this.CellAnimationPrefab);
-        newNode.parent = this.buildNode;
+        newNode.parent = this.node;
         newNode.setPosition(0,0);
         this.testPrefab = newNode.getComponent(CellAnimationController);
     }
@@ -69,8 +66,7 @@ export class WholeSheetView extends GameTime {
     }
 
     onLoad() {
-        // 为 StartBtn 按钮添加点击事件
-        this.StartBtn.node.on(Node.EventType.TOUCH_END, this.onStartBtnClick, this);
+        
     }
     
     // StartBtn 的点击事件处理函数
