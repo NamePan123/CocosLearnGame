@@ -50,19 +50,19 @@ export class GameModel  {
         return this._downGrids[row][col];
     }
     
-    public SetData(data:number[][])
+    public SetData(data:number[][], refulshView:boolean = true)
     {
          for(let i:number = 0; i < data.length; i++){
             let cel = data[i];
             for(let j:number = 0; j < cel.length; j++){
                 let cell:CellData = this.GetCellDataByIndex(i, j);
                 let index = data[i][j];
-                cell.SetIndex(index);
+                cell.SetIndex(index, refulshView);
             }
          }
             
     }
-    
+
     //-------------------------------动画控制-----------------------------------------
 
 

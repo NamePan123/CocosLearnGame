@@ -49,11 +49,12 @@ export class GameController extends GameTime {
             this.StopBtn.node.on(Node.EventType.TOUCH_END, this.onStopClick, this);
             this.ReplayBtn.node.on(Node.EventType.TOUCH_END, this.onReplayBtnClick, this);
             GameModel.Instance().SetData(TestData.Round1);
+            this.TestIndex ++;
         });
     }
 
 
-
+    private TestIndex:number = 0;
 
     onStartBtnClick(){
 
@@ -62,11 +63,29 @@ export class GameController extends GameTime {
 
 
     private InitTestData(){
-
-        GameModel.Instance().SetData(TestData.Round1);
+        if(this.TestIndex == 0){
+            GameModel.Instance().SetData(TestData.Round1, false);
+        }
+        if(this.TestIndex == 1){
+            GameModel.Instance().SetData(TestData.Round2, false);
+        }
+        if(this.TestIndex == 2){
+            GameModel.Instance().SetData(TestData.Round3, false);
+        }
+        if(this.TestIndex == 3){
+            GameModel.Instance().SetData(TestData.Round4, false);
+        }
+        if(this.TestIndex == 4){
+            GameModel.Instance().SetData(TestData.Round5, false);
+        }
+       
         GameModel.Instance().ResetReel();
         this.Reset();
         this.StartTime(0);
+        this.TestIndex ++;
+        if( this.TestIndex == 4){
+            this.TestIndex = 0;
+        }
     }
 
 

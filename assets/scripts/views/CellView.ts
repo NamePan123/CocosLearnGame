@@ -88,6 +88,7 @@ export class CellView extends Component {
         if(!this._isEnd){
             if(this.node.position.y <= this._defaultPosition){
 
+                this.SetIcon(SymbolDefine.GetNameByIndex(this._data.CardID_Index), SymbolDefine.GetNameBlurByIndex(this._data.CardID_Index));
                 this.node.setPosition(0, this._defaultPosition);
                 this.ToBlur(false);
                 this._isEnd = true;
