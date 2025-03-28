@@ -2,11 +2,12 @@ import { _decorator, Button, Component, game, Node, Prefab, resources } from 'cc
 import { WholeSheetView } from '../views/WholeSheetView';
 import { GameModel } from '../models/GameModel';
 import { TestData } from './TestData';
+import { GameTime } from '../core/GameTime';
 
 const { ccclass, property } = _decorator;
 
 @ccclass('GameController')
-export class GameController extends Component {
+export class GameController extends GameTime {
 
      
     @property(WholeSheetView) 
@@ -22,7 +23,7 @@ export class GameController extends Component {
     }
 
     update(deltaTime: number) {
-        
+        super.update(deltaTime);
     }
 
 
@@ -33,25 +34,28 @@ export class GameController extends Component {
                 console.log("err:" + err);
                 return;
             }
-
             this.reelView.InitView(prefab, GameModel.Instance());
             this.StartBtn.node.on(Node.EventType.TOUCH_END, this.onStartBtnClick, this);
-
             GameModel.Instance().SetData(TestData.Round1);
-           
-
         });
     }
 
 
+
+
     onStartBtnClick(){
 
-
-
-        //this.StartTime(0);
-        //this.testPrefab.InitView(SymbolDefine.Number_2, this.buildNode);
-        //GameModel.Instance().GetCellDataByIndex(3,4).SetIcon(SymbolDefine.Number_2);
+        this.StartTime(0);
     }
+
+
+    public override GameUpdate(gameTime: number): void {
+        
+        if(this.ISRunning){
+            this.reelView.GameUpdate(gameTime);
+        }
+    }
+
 }
 
 

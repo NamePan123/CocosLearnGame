@@ -1,4 +1,4 @@
-import { _decorator, Component, instantiate, Node, Prefab, Sprite, SpriteFrame } from 'cc';
+import { _decorator, Component, instantiate, Node, Prefab, Sprite, SpriteFrame, UITransform } from 'cc';
 import { CellData } from '../models/CellData';
 import { CellAnimationController } from './animtions/CellAnimationController';
 import { SymbolDefine } from '../models/SymbolDefine';
@@ -7,19 +7,14 @@ const { ccclass, property } = _decorator;
 @ccclass('CellView')
 export class CellView extends Component {
 
-    start() {
-
-    }
-
-    update(deltaTime: number) {
-   
-    }
 
     @property(Sprite) 
     public icon:Sprite;   
     
     private _anim:CellAnimationController;
-
+    
+    private _icon_name:string;
+    private _icon_name_blur:string;
     private _data:CellData;
     private _topPosition:number = 584;
     public set data(value:CellData)
@@ -38,9 +33,24 @@ export class CellView extends Component {
         this._anim.Reset();
     }
 
-    public SetIcon(name:string):void
-    {
+    public ToBlur(value:boolean):void{
+        let iconName = value ? this._icon_name_blur : this._icon_name;
+        let frame:SpriteFrame = this.icon.spriteAtlas.getSpriteFrame(iconName);
+        this.icon.spriteFrame = frame;
+        this.icon.node.active = true;
+        this._anim.Reset();
 
+       // const uiTransform = this.icon.node.getComponent(UITransform);
+       // uiTransform.width = 210;   
+       // uiTransform.height = 210;  
+
+    }
+
+
+    public SetIcon(name:string, blur:string):void
+    {
+        this._icon_name = name;
+        this._icon_name_blur = blur;
         let frame:SpriteFrame = this.icon.spriteAtlas.getSpriteFrame(name);
         this.icon.spriteFrame = frame;
         this.icon.node.active = true;

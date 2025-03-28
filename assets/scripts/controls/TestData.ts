@@ -5,18 +5,21 @@ const { ccclass, property } = _decorator;
 export class TestData
 {
     static Round1: number[][] = [
+        [1, 4, 7, 1, 2], 
         [5, 7, 2, 6, 5], 
         [0, 1, 6, 3, 0], 
         [6, 5, 2, 5, 2]
     ];
 
     static Round2: number[][] = [
+        [1, 4, 7, 1, 2], 
         [4, 3, 3, 0, 0], 
         [4, 3, 6, 3, 1], 
         [4, 1, 4, 0, 4]
     ];
 
     static Round3: number[][] = [
+        [1, 4, 7, 1, 2], 
         [1, 7, 4, 1, 3], 
         [0, 2, 6, 2, 1], 
         [6, 3, 6, 6, 2]
@@ -25,12 +28,14 @@ export class TestData
 
     static Round4: number[][] = [
         [1, 4, 7, 1, 2], 
+        [1, 4, 7, 1, 2], 
         [4, 1, 2, 1, 2], 
         [1, 3, 2, 3, 2]
     ];
 
 
     static Round5: number[][] = [
+        [1, 4, 7, 1, 2], 
         [0, 0, 0, 5, 2], 
         [2, 6, 6, 4, 2], 
         [2, 5, 2, 0, 5]

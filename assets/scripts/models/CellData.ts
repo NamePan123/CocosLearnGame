@@ -35,7 +35,7 @@ export class CellData  {
 
      public SetIndex(index:number){
         
-        this.BingdCellView.SetIcon(SymbolDefine.GetNameByIndex(index));  
+        this.BingdCellView.SetIcon(SymbolDefine.GetNameByIndex(index), SymbolDefine.GetNameBlurByIndex(index));  
      }
 }   
 
