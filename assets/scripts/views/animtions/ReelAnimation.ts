@@ -25,17 +25,21 @@ export class ReelAnimation extends Component{
         //经过这个时间停止
         if(gametime <= this._reel.Duration +  this._reel.Delay){
               //模拟向上
-              if(gametime >= this._reel.Delay + this._reel.UPReelTime){
+            if(gametime >= this._reel.Delay + this._reel.UPReelTime){
+                   //初始化
+                if(!this._reel.Start){
+                    this.lineView.SartMove();
+                    this._reel.Start = true;
+                }
                 this.lineView.Move(this._reel.Speed);
             }
-            else {
+            else if(gametime >= this._reel.Delay - this._reel.UPReelTime){
+                if(this._reel.Delay != 0){
+                    console.log("this._reel.Delay" + this._reel.UPReelTime);
+                }
                 this.lineView.Move(-this._reel.UpwardSpeed);
             }
-            //初始化
-            if(!this._reel.Start){
-                this.lineView.SartMove();
-                this._reel.Start = true;
-            }
+         
         }  
         else{
             //等待最后一轮转弯

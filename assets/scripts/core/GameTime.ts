@@ -76,7 +76,8 @@ export class GameTime extends Component implements IGameTime
 
     // 恢复游戏时间
     public Resume(): void {
-        if (this._isPaused) {
+
+        if (this._isPaused && this._isRuuning) {
             const resumeTime = performance.now();
             const pauseDuration = resumeTime - this._lastPauseTime;
             this._pausedTime += pauseDuration;  // 累加暂停持续时间
