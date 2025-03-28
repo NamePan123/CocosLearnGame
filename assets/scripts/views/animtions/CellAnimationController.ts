@@ -19,7 +19,7 @@ export class CellAnimationController extends Component {
     }
    
     //playanim 定义在 SymbolDefine
-    public InitView(name:string, playanim:string):void
+    public InitView(name:string, playanim:string, loop:boolean = false):void
     {
         this.Reset();
         let animIndex = SymbolDefine.GetIndexByName(name);
@@ -27,8 +27,8 @@ export class CellAnimationController extends Component {
 
             let selectedAnim:sp.Skeleton = this.Animations[animIndex];
             selectedAnim.node.active = true;
-            selectedAnim.loop = true;
-            selectedAnim.setAnimation(0, playanim, true);
+            selectedAnim.loop = loop;
+            selectedAnim.setAnimation(0, playanim, loop);
         }
     }
 

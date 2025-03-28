@@ -6,6 +6,7 @@ export class SymbolDefine
 {
     static readonly Play_win:string = "win";
     static readonly Play_idle:string = "idle";
+    static readonly Play_spawn:string = "spawn";
 
     
     static readonly Number_0:string = "tb_1";
