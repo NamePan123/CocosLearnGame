@@ -38,12 +38,11 @@ export class CellView extends Component {
         let frame:SpriteFrame = this.icon.spriteAtlas.getSpriteFrame(iconName);
         this.icon.spriteFrame = frame;
         this.icon.node.active = true;
-        this._anim.Reset();
-
-       // const uiTransform = this.icon.node.getComponent(UITransform);
-       // uiTransform.width = 210;   
-       // uiTransform.height = 210;  
-
+        if(value){
+             this._anim.Reset();
+        }else{
+            this.PlayAnim(this._icon_name);
+        }  
     }
 
 
@@ -55,21 +54,26 @@ export class CellView extends Component {
         this.icon.spriteFrame = frame;
         this.icon.node.active = true;
         //这2个动画需要播放idle
-        if(name == SymbolDefine.Number_8 || name == SymbolDefine.Number_7){
-           this.icon.node.active = false;
-           this._anim.InitView(name, SymbolDefine.Play_spawn);
-           this.scheduleOnce(() => {
-            this._anim.InitView(name, SymbolDefine.Play_idle, true);
-        }, 0.6);
-        }
+        this.PlayAnim(name);
     }
 
     public Move(speed:number):void
     {
         this.node.setPosition(0,  this.node.position.y - speed);
         if( this.node.position.y <= 0) {
-            this.node.setPosition(0, this._topPosition);       
+            this.node.setPosition(0, this._topPosition + this.node.position.y);       
         }
+    }
+
+
+    private PlayAnim(name:string){
+        if(name == SymbolDefine.Number_8 || name == SymbolDefine.Number_7){
+            this.icon.node.active = false;
+            this._anim.InitView(name, SymbolDefine.Play_spawn);
+            this.scheduleOnce(() => {
+             this._anim.InitView(name, SymbolDefine.Play_idle, true);
+         }, 0.6);
+         }
     }
 }
 

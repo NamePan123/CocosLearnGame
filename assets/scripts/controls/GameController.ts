@@ -1,4 +1,4 @@
-import { _decorator, Button, Component, game, Node, Prefab, resources } from 'cc';
+import { _decorator, Button, Component, game, Label, math, Node, Prefab, resources } from 'cc';
 import { WholeSheetView } from '../views/WholeSheetView';
 import { GameModel } from '../models/GameModel';
 import { TestData } from './TestData';
@@ -15,6 +15,16 @@ export class GameController extends GameTime {
 
     @property(Button) 
     public StartBtn:Button;
+
+    @property(Button) 
+    public StopBtn:Button;
+
+
+    @property(Button) 
+    public ReplayBtn:Button;
+
+    @property(Label) 
+    public timeLabel:Label;
 
     start() {
         game.frameRate = 120;
@@ -36,6 +46,8 @@ export class GameController extends GameTime {
             }
             this.reelView.InitView(prefab, GameModel.Instance());
             this.StartBtn.node.on(Node.EventType.TOUCH_END, this.onStartBtnClick, this);
+            this.StopBtn.node.on(Node.EventType.TOUCH_END, this.onStopClick, this);
+            this.ReplayBtn.node.on(Node.EventType.TOUCH_END, this.onReplayBtnClick, this);
             GameModel.Instance().SetData(TestData.Round1);
         });
     }
@@ -48,10 +60,21 @@ export class GameController extends GameTime {
         this.StartTime(0);
     }
 
+    onStopClick(){
+
+        this.Pause();
+    }
+
+    onReplayBtnClick(){
+
+        this.Resume();
+    }
+
 
     public override GameUpdate(gameTime: number): void {
         
-        if(this.ISRunning){
+        this.timeLabel.string = Math.round(gameTime).toString();
+        if(this.ISRunning && this.isPaused == false){
             this.reelView.GameUpdate(gameTime);
         }
     }

@@ -5,12 +5,19 @@ const { ccclass, property } = _decorator;
 @ccclass('GameTime')
 export class GameTime extends Component implements IGameTime
 {
+
+    public  get isPaused():boolean  {
+        return this._isPaused;
+    }
+
     public get ISRunning(): boolean {
         return this._isRuuning;
     }
+
     private _isRuuning = false;
     private _startTime: number = 0;
     private _pausedTime: number = 0;
+  
     private _isPaused: boolean = true;
     private _lastPauseTime: number = 0; // 用来记录暂停开始时的时间
 
