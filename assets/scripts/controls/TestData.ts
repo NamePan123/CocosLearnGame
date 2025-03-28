@@ -41,8 +41,15 @@ export class TestData
         [2, 5, 2, 0, 5]
     ];
 
+    static Round6: number[][] = [
+        [1, 4, 7, 1, 2], 
+        [0, 6, 0, 5, 2], 
+        [2, 6, 6, 4, 2], 
+        [2, 5, 2, 0, 5]
+    ];
+
     //突然达成了 有动画
-    static Round6: number[] =  [0, 6, 0, 5, 2]
+   // static Round6: number[] =  [0, 6, 0, 5, 2]
 }
 
 

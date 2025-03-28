@@ -39,6 +39,16 @@ export class CellLineView extends Component {
         });
     }
 
+    public IsEnd():boolean {
+
+        this.celllines.forEach(element => {
+            if(!element.IsEnd){
+                return false;
+            }
+        });
+        return true;
+    }
+
     public MoveFixed(speed:number):void {
         this.celllines.forEach(element => {
             element.MoveFixed(speed);

@@ -63,6 +63,7 @@ export class GameController extends GameTime {
 
 
     private InitTestData(){
+        
         if(this.TestIndex == 0){
             GameModel.Instance().SetData(TestData.Round1, false);
         }
@@ -78,12 +79,17 @@ export class GameController extends GameTime {
         if(this.TestIndex == 4){
             GameModel.Instance().SetData(TestData.Round5, false);
         }
+        if(this.TestIndex == 5){
+            GameModel.Instance().SetData(TestData.Round6, false);
+        }
        
         GameModel.Instance().ResetReel();
         this.Reset();
         this.StartTime(0);
+
+
         this.TestIndex ++;
-        if( this.TestIndex == 4){
+        if( this.TestIndex == 5){
             this.TestIndex = 0;
         }
     }

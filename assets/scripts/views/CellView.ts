@@ -11,6 +11,10 @@ export class CellView extends Component {
     @property(Sprite) 
     public icon:Sprite;   
     
+    public IsEnd():boolean{
+        return this._isEnd;
+    }
+
     //是否转动结束
     private _isEnd:boolean = false;
     private _isMoveing:boolean = false;
