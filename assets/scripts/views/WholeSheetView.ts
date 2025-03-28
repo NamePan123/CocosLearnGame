@@ -16,19 +16,17 @@ export class WholeSheetView extends GameTime {
     @property(Label) 
     public TimeLabel:Label;
 
-  
-    
     @property([CellLineView]) 
     public  celllines:CellLineView[] = Array<CellLineView>(5); 
     
     private CellAnimationPrefab:Prefab;
-    private CellAnimations:CellAnimationController[] = Array<CellAnimationController>();
-
+   
     private testPrefab:CellAnimationController;
     start() 
     {
         super.start();
     }
+
 
     
     public InitView(cellAnimPrefab:Prefab, model:GameModel):void
@@ -36,10 +34,10 @@ export class WholeSheetView extends GameTime {
         this.CellAnimationPrefab = cellAnimPrefab;
         this.BindData(model);
         //测试
-        let newNode = instantiate( this.CellAnimationPrefab);
-        newNode.parent = this.node;
-        newNode.setPosition(0,0);
-        this.testPrefab = newNode.getComponent(CellAnimationController);
+        //let newNode = instantiate( this.CellAnimationPrefab);
+        //newNode.parent = this.node;
+        //newNode.setPosition(0,0);
+        //this.testPrefab = newNode.getComponent(CellAnimationController);
     }
 
     //绑定数据
@@ -56,6 +54,8 @@ export class WholeSheetView extends GameTime {
                 view = singleLine.GetCellViewByIndex(j);
                 data = model.GetCellDataByIndex(j, i);
                 view.data = data;
+                view.SetAnimPrefab(this.CellAnimationPrefab);
+
             }        
         }
     }

@@ -1,6 +1,7 @@
 import { _decorator, Button, Component, game, Node, Prefab, resources } from 'cc';
 import { WholeSheetView } from '../views/WholeSheetView';
 import { GameModel } from '../models/GameModel';
+import { TestData } from './TestData';
 
 const { ccclass, property } = _decorator;
 
@@ -35,6 +36,10 @@ export class GameController extends Component {
 
             this.reelView.InitView(prefab, GameModel.Instance());
             this.StartBtn.node.on(Node.EventType.TOUCH_END, this.onStartBtnClick, this);
+
+            GameModel.Instance().SetData(TestData.Round4);
+           
+
         });
     }
 

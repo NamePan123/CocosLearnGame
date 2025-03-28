@@ -600,7 +600,7 @@
       "__expectedType__": "sp.SkeletonData"
     },
     "defaultSkin": "default",
-    "defaultAnimation": "",
+    "defaultAnimation": "<None>",
     "_premultipliedAlpha": true,
     "_timeScale": 1,
     "_preCacheMode": 0,
@@ -736,7 +736,7 @@
       "__expectedType__": "sp.SkeletonData"
     },
     "defaultSkin": "default",
-    "defaultAnimation": "",
+    "defaultAnimation": "<None>",
     "_premultipliedAlpha": true,
     "_timeScale": 1,
     "_preCacheMode": 0,
@@ -1374,10 +1374,10 @@
         "__id__": 35
       },
       {
-        "__id__": 29
+        "__id__": 23
       },
       {
-        "__id__": 23
+        "__id__": 29
       }
     ],
     "_id": ""
@@ -1395,6 +1395,7 @@
       "__id__": 0
     },
     "fileId": "a39ncDPgVLOohLPaDdKq9W",
+    "instance": null,
     "targetOverrides": null
   }
 ]

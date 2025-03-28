@@ -1,5 +1,6 @@
 import { _decorator, Component, Node } from 'cc';
 import { CellData } from './CellData';
+import { SymbolDefine } from './SymbolDefine';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameModel')
@@ -38,10 +39,17 @@ export class GameModel  {
     {
         return this._downGrids[row][col];
     }
-
-    public ParseData(data:number[][])
+    
+    public SetData(data:number[][])
     {
-        
+         for(let i:number = 0; i < data.length; i++){
+            let cel = data[i];
+            for(let j:number = 0; j < cel.length; j++){
+                let cell:CellData = this.GetCellDataByIndex(i + 1, j);
+                let index = data[i][j];
+                cell.SetIndex(index);
+            }
+         }
             
     }
 

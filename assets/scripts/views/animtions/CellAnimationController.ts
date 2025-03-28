@@ -6,27 +6,29 @@ const { ccclass, property } = _decorator;
 export class CellAnimationController extends Component {
 
   
+  
     @property([sp.Skeleton]) 
     public Animations:sp.Skeleton[] = Array<sp.Skeleton>();   
 
     start() {
-        this.Reset();
+       
     }
 
     update(deltaTime: number) {
         
     }
-
-    public InitView(name:string, parent:Node):void
+   
+    //playanim 定义在 SymbolDefine
+    public InitView(name:string, playanim:string):void
     {
+        this.Reset();
         let animIndex = SymbolDefine.GetIndexByName(name);
         if(animIndex < this.Animations.length){
 
             let selectedAnim:sp.Skeleton = this.Animations[animIndex];
             selectedAnim.node.active = true;
-            selectedAnim.node.parent = parent;
-            selectedAnim.node.setPosition(0,0);
-            selectedAnim.loop = false;
+            selectedAnim.loop = true;
+            selectedAnim.setAnimation(0, playanim, true);
         }
     }
 

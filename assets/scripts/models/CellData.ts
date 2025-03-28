@@ -1,5 +1,6 @@
 import { _decorator, Component, Node } from 'cc';
 import { CellView } from '../views/CellView';
+import { SymbolDefine } from './SymbolDefine';
 const { ccclass, property } = _decorator;
 
 @ccclass('CellData')
@@ -32,9 +33,9 @@ export class CellData  {
      }
 
 
-     public SetIcon(name:string){
+     public SetIndex(index:number){
         
-        this.BingdCellView.SetIcon(name);  
+        this.BingdCellView.SetIcon(SymbolDefine.GetNameByIndex(index));  
      }
 }   
 
