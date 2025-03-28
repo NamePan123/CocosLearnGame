@@ -49,8 +49,8 @@ export class CellView extends Component {
 
            this._anim.InitView(name, SymbolDefine.Play_spawn);
            this.scheduleOnce(() => {
-            this._anim.InitView(name, SymbolDefine.Play_idle);
-        }, 1);
+            this._anim.InitView(name, SymbolDefine.Play_idle, true);
+        }, 0.6);
         }
     }
 
