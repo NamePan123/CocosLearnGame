@@ -73,10 +73,10 @@ export class GameModel  {
     private ConfigReelAnimation(){
 
         this._reelRuleDatas.push(this.CreateReelRuleData(2, ReelState.IDLE, 0, 50));
-        this._reelRuleDatas.push(this.CreateReelRuleData(2, ReelState.IDLE, 0, 50));
-        this._reelRuleDatas.push(this.CreateReelRuleData(2, ReelState.IDLE, 0, 50));
-        this._reelRuleDatas.push(this.CreateReelRuleData(2, ReelState.IDLE, 0, 50));
-        this._reelRuleDatas.push(this.CreateReelRuleData(2, ReelState.IDLE, 0, 50));
+        this._reelRuleDatas.push(this.CreateReelRuleData(2, ReelState.IDLE, 200, 50));
+        this._reelRuleDatas.push(this.CreateReelRuleData(2, ReelState.IDLE, 400, 50));
+        this._reelRuleDatas.push(this.CreateReelRuleData(2, ReelState.IDLE, 600, 50));
+        this._reelRuleDatas.push(this.CreateReelRuleData(2, ReelState.IDLE, 800, 50));
     }
 
     private CreateReelRuleData(duration:number, state:ReelState, delay:number, speed:number):ReelRuleData{
