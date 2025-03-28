@@ -12,7 +12,7 @@ export class CellView extends Component {
     }
 
     update(deltaTime: number) {
-       //this.Move(10);
+   
     }
 
     @property(Sprite) 
@@ -46,7 +46,7 @@ export class CellView extends Component {
         this.icon.node.active = true;
         //这2个动画需要播放idle
         if(name == SymbolDefine.Number_8 || name == SymbolDefine.Number_7){
-
+           this.icon.node.active = false;
            this._anim.InitView(name, SymbolDefine.Play_spawn);
            this.scheduleOnce(() => {
             this._anim.InitView(name, SymbolDefine.Play_idle, true);

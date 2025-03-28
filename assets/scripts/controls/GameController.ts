@@ -37,7 +37,7 @@ export class GameController extends Component {
             this.reelView.InitView(prefab, GameModel.Instance());
             this.StartBtn.node.on(Node.EventType.TOUCH_END, this.onStartBtnClick, this);
 
-            GameModel.Instance().SetData(TestData.Round4);
+            GameModel.Instance().SetData(TestData.Round1);
            
 
         });
