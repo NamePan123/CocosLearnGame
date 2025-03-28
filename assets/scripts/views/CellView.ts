@@ -68,7 +68,7 @@ export class CellView extends Component {
         this.icon.node.active = true;
         this._anim.Reset();
         //这2个动画需要播放idle
-        //this.PlayAnim(name);
+        this.PlayAnim(name);
     }
 
     public Move(speed:number):void
@@ -88,11 +88,12 @@ export class CellView extends Component {
         if(!this._isEnd){
             if(this.node.position.y <= this._defaultPosition){
 
+                this._isMoveing = false;
                 this.SetIcon(SymbolDefine.GetNameByIndex(this._data.CardID_Index), SymbolDefine.GetNameBlurByIndex(this._data.CardID_Index));
                 this.node.setPosition(0, this._defaultPosition);
                 this.ToBlur(false);
                 this._isEnd = true;
-                this._isMoveing = false;
+              
             } 
             else{
 
@@ -103,11 +104,12 @@ export class CellView extends Component {
 
 
     private PlayAnim(name:string){
-        if(name == SymbolDefine.Number_8 || name == SymbolDefine.Number_7){
+        
+        if((name == SymbolDefine.Number_8 || name == SymbolDefine.Number_7) && !this._isMoveing){
             this.icon.node.active = false;
             this._anim.InitView(name, SymbolDefine.Play_spawn);
             this.scheduleOnce(() => {
-             this._anim.InitView(name, SymbolDefine.Play_idle, true);
+                 this._anim.InitView(name, SymbolDefine.Play_idle, true);
          }, 0.6);
          }
 
