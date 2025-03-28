@@ -146,7 +146,7 @@ export class SymbolDefine
 
     public static GetRandomIcon():string[]{
         const randomNumber = Math.floor(Math.random() * 9);
-        console.log("randomNumber:" + randomNumber);
+        
         let names:string[] = Array<string>();
         names[0] = this.GetNameByIndex(randomNumber);
         names[1] =this.GetNameBlurByIndex(randomNumber);

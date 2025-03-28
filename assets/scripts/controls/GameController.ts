@@ -55,15 +55,22 @@ export class GameController extends GameTime {
 
 
     private TestIndex:number = 0;
-
+    private isFrist:boolean = true;
     onStartBtnClick(){
 
-        this.InitTestData();
+        if(this.CurrentTime() > 2000 || this.isFrist) {
+            //模拟服务器发送2秒时间，收到后才可以点击下次开始
+            this.InitTestData();
+            this.isFrist = false;
+        }
+        else{
+            console.log("时间还未到");
+        }   
     }
 
 
     private InitTestData(){
-        
+
         if(this.TestIndex == 0){
             GameModel.Instance().SetData(TestData.Round1, false);
         }
