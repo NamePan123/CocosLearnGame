@@ -48,19 +48,15 @@ export class ReelAnimation extends Component{
             if(!this._reelEnd  && this.lineView.IsEnd){
                 this._reelEnd = true;
                 tween(this.node)
-                .to(0.2, { position: new Vec3(this.lineView.node.position.x, 1, 0) }, { easing: 'sineInOut' })
+                .to(0.1, { position: new Vec3(this.lineView.node.position.x, 1, 0) }, { easing: 'sineInOut' })
                 .start();
 
                  this.scheduleOnce(() => {
                                  
                     tween(this.node)
-                    .to(0.2, { position: new Vec3(this.lineView.node.position.x, -1, 0) }, { easing: 'sineInOut' })
+                    .to(0.1, { position: new Vec3(this.lineView.node.position.x, -1, 0) }, { easing: 'sineInOut' })
                     .start();
-
-                         }, 0.2);
-
-
-
+                         }, 0.1);
             }
         }
         
