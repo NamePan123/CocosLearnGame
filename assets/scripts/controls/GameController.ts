@@ -57,8 +57,19 @@ export class GameController extends GameTime {
 
     onStartBtnClick(){
 
+        this.InitTestData();
+      
+    }
+
+
+    private InitTestData(){
+
+        GameModel.Instance().SetData(TestData.Round1);
+        GameModel.Instance().ResetReel();
+        this.Reset();
         this.StartTime(0);
     }
+
 
     onStopClick(){
 

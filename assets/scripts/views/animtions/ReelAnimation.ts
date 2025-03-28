@@ -22,22 +22,27 @@ export class ReelAnimation extends Component{
     
     public GameUpdate(gametime:number){
        
-        //经过这个时间启动
-        if(gametime >= this._reel.Delay){
-            
-            if(gametime >= this._reel.Delay + this._reel.UPReelTime){
+        //经过这个时间停止
+        if(gametime <= this._reel.Duration +  this._reel.Delay){
+              //模拟向上
+              if(gametime >= this._reel.Delay + this._reel.UPReelTime){
                 this.lineView.Move(this._reel.Speed);
-      
             }
             else {
                 this.lineView.Move(-this._reel.UpwardSpeed);
-
             }
+            //初始化
             if(!this._reel.Start){
                 this.lineView.SartMove();
                 this._reel.Start = true;
             }
+        }  
+        else{
+            //等待最后一轮转弯
+            this.lineView.MoveFixed(this._reel.Speed);
         }
+        
+
   
     }
 }

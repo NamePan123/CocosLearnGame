@@ -1,4 +1,4 @@
-import { _decorator, Component, instantiate, Node, Prefab, Sprite, SpriteFrame, UITransform } from 'cc';
+import { _decorator, Component, instantiate, Node, Prefab, Sprite, SpriteFrame, UITransform, Vec3 } from 'cc';
 import { CellData } from '../models/CellData';
 import { CellAnimationController } from './animtions/CellAnimationController';
 import { SymbolDefine } from '../models/SymbolDefine';
@@ -11,17 +11,22 @@ export class CellView extends Component {
     @property(Sprite) 
     public icon:Sprite;   
     
+    //是否转动结束
+    private _isEnd:boolean = false;
     private _anim:CellAnimationController;
     
     private _icon_name:string;
     private _icon_name_blur:string;
     private _data:CellData;
     private _topPosition:number = 584;
+
+    private _defaultPosition:number;
     public set data(value:CellData)
     {
         //数据双向绑定UI
         this._data = value;
         this._data.BingdCellView = this;
+        this._defaultPosition = this.node.position.y;
     }
     
     public SetAnimPrefab(prefab:Prefab):void
@@ -45,6 +50,9 @@ export class CellView extends Component {
         }  
     }
 
+    public StartMove(){
+        this._isEnd = false;
+    }
 
     public SetIcon(name:string, blur:string):void
     {
@@ -63,6 +71,23 @@ export class CellView extends Component {
         if( this.node.position.y <= 0) {
             this.node.setPosition(0, this._topPosition + this.node.position.y);       
         }
+    }
+
+    
+    public MoveFixed(speed:number):void
+    {
+        if(!this._isEnd){
+            if(this.node.position.y <= this._defaultPosition){
+
+                this.node.setPosition(0, this._defaultPosition);
+                this.ToBlur(false);
+                this._isEnd = true;
+            } 
+            else{
+
+                this.Move(speed);
+            }    
+        }    
     }
 
 

@@ -10,7 +10,7 @@ export class ReelRuleData {
     public Speed:number;//滚动的速度
     public Delay:number;//延迟多久后播放
     public Start:boolean = false;
-    public UPReelTime:number = 200;//模拟向上的时间
+    public UPReelTime:number = 100;//模拟向上的时间
     public UpwardSpeed:number = 1;
 }
 

@@ -65,6 +65,14 @@ export class GameModel  {
 
     //-------------------------------动画控制-----------------------------------------
 
+
+    public ResetReel(){
+
+        this._reelRuleDatas.forEach(element => {
+            element.Start = false;
+        });
+    }
+
     public GetReelRuleDataByIndex(index:number):ReelRuleData{
 
         return  this._reelRuleDatas[index];
@@ -72,11 +80,11 @@ export class GameModel  {
 
     private ConfigReelAnimation(){
 
-        this._reelRuleDatas.push(this.CreateReelRuleData(2, ReelState.IDLE, 0, 50));
-        this._reelRuleDatas.push(this.CreateReelRuleData(2, ReelState.IDLE, 200, 50));
-        this._reelRuleDatas.push(this.CreateReelRuleData(2, ReelState.IDLE, 400, 50));
-        this._reelRuleDatas.push(this.CreateReelRuleData(2, ReelState.IDLE, 600, 50));
-        this._reelRuleDatas.push(this.CreateReelRuleData(2, ReelState.IDLE, 800, 50));
+        this._reelRuleDatas.push(this.CreateReelRuleData(1000, ReelState.IDLE, 0, 50));
+        this._reelRuleDatas.push(this.CreateReelRuleData(1000, ReelState.IDLE, 200, 50));
+        this._reelRuleDatas.push(this.CreateReelRuleData(1000, ReelState.IDLE, 400, 50));
+        this._reelRuleDatas.push(this.CreateReelRuleData(1000, ReelState.IDLE, 600, 50));
+        this._reelRuleDatas.push(this.CreateReelRuleData(1000, ReelState.IDLE, 800, 50));
     }
 
     private CreateReelRuleData(duration:number, state:ReelState, delay:number, speed:number):ReelRuleData{
