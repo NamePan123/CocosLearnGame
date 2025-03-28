@@ -34,9 +34,7 @@ export class ReelAnimation extends Component{
                 this.lineView.Move(this._reel.Speed);
             }
             else if(gametime >= this._reel.Delay - this._reel.UPReelTime){
-                if(this._reel.Delay != 0){
-                    console.log("this._reel.Delay" + this._reel.UPReelTime);
-                }
+                //回弹效果
                 this.lineView.Move(-this._reel.UpwardSpeed);
             }
          
