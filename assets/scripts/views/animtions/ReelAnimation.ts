@@ -13,7 +13,8 @@ export class ReelAnimation extends Component{
     public LineIndex:number;
 
     private _reel:ReelRuleData;
- 
+    
+    
     public Init(reel:ReelRuleData)
     {
         this._reel = reel;
@@ -24,7 +25,14 @@ export class ReelAnimation extends Component{
         //经过这个时间启动
         if(gametime >= this._reel.Delay){
             
-            this.lineView.Move(this._reel.Speed);
+            if(gametime >= this._reel.Delay + this._reel.UPReelTime){
+                this.lineView.Move(this._reel.Speed);
+      
+            }
+            else {
+                this.lineView.Move(-this._reel.UpwardSpeed);
+
+            }
             if(!this._reel.Start){
                 this.lineView.SartMove();
                 this._reel.Start = true;
