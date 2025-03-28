@@ -1,4 +1,4 @@
-import { _decorator, Button, Component, game, Label, math, Node, Prefab, resources } from 'cc';
+import { _decorator, Button, Component, game, Label, math, Node, Prefab, resources, Tween } from 'cc';
 import { WholeSheetView } from '../views/WholeSheetView';
 import { GameModel } from '../models/GameModel';
 import { TestData } from './TestData';
@@ -58,7 +58,6 @@ export class GameController extends GameTime {
     onStartBtnClick(){
 
         this.InitTestData();
-      
     }
 
 

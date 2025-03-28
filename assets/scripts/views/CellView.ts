@@ -13,6 +13,7 @@ export class CellView extends Component {
     
     //是否转动结束
     private _isEnd:boolean = false;
+    private _isMoveing:boolean = false;
     private _anim:CellAnimationController;
     
     private _icon_name:string;
@@ -52,24 +53,32 @@ export class CellView extends Component {
 
     public StartMove(){
         this._isEnd = false;
+        this._isMoveing = true;
     }
 
     public SetIcon(name:string, blur:string):void
     {
         this._icon_name = name;
         this._icon_name_blur = blur;
-        let frame:SpriteFrame = this.icon.spriteAtlas.getSpriteFrame(name);
+
+        let curName = this._isMoveing ? this._icon_name_blur : this._icon_name;
+
+        let frame:SpriteFrame = this.icon.spriteAtlas.getSpriteFrame(curName);
         this.icon.spriteFrame = frame;
         this.icon.node.active = true;
+        this._anim.Reset();
         //这2个动画需要播放idle
-        this.PlayAnim(name);
+        //this.PlayAnim(name);
     }
 
     public Move(speed:number):void
     {
         this.node.setPosition(0,  this.node.position.y - speed);
-        if( this.node.position.y <= 0) {
-            this.node.setPosition(0, this._topPosition + this.node.position.y);       
+        if(this.node.position.y <= 0) {
+            this.node.setPosition(0, this._topPosition + this.node.position.y);     
+            //这里随机更换ICON 
+            let names:string[] = SymbolDefine.GetRandomIcon();
+            this.SetIcon(names[0], names[1]);
         }
     }
 
@@ -82,6 +91,7 @@ export class CellView extends Component {
                 this.node.setPosition(0, this._defaultPosition);
                 this.ToBlur(false);
                 this._isEnd = true;
+                this._isMoveing = false;
             } 
             else{
 
@@ -99,6 +109,7 @@ export class CellView extends Component {
              this._anim.InitView(name, SymbolDefine.Play_idle, true);
          }, 0.6);
          }
+
     }
 }
 
