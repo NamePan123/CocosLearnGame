@@ -126,9 +126,18 @@ export class GameController extends GameTime {
             if(gameTime > GameModel.Instance().MaxReelTime && !this._roundEnd){
                 
                 this.Stop();
+                this._roundEnd = true;
+                let checked = GameModel.Instance().CheckDatas()
                 //检查一下是否要消除
-                if(GameModel.Instance().CheckDatas()){
-                    this.reelView.PlayWinLine(SymbolDefine.Line_2);
+                if(checked.length > 0){
+
+                    if(checked[0].row == 1){
+                        this.reelView.PlayWinLine(SymbolDefine.Line_2);
+                    }
+                    if(checked[0].row == 3){
+                        this.reelView.PlayWinLine(SymbolDefine.Line_3);
+                    }
+                   
                     setTimeout(() => {
                         this.reelView.PlayWobbleAnim(true);
                         this.scheduleOnce(() => this.StartDrop(), 1);
@@ -137,7 +146,7 @@ export class GameController extends GameTime {
                    
                 }
                 
-                this._roundEnd = true;
+         
             }
         } 
     }

@@ -52,11 +52,10 @@ export class CellView extends Component {
         if(index == 3){
             this._defaultPosition =  146;
         }
-
-
         this.lable.string = value.GridRow.toString();
     }
     
+
     public SetAnimPrefab(prefab:Prefab):void
     {
         let anim = instantiate(prefab);

@@ -67,7 +67,7 @@ export class GameModel  {
     }
 
 
-    public CheckDatas():boolean{
+    public CheckDatas():{ row: number; col: number }[]{
         let value:boolean = false;
         let matchedCells = this.GetWinningIndices(this._curData);
         matchedCells.forEach(element => {
@@ -76,7 +76,7 @@ export class GameModel  {
            Cell.SetWin(true, true);
            value = true;
         });
-        return value;
+        return matchedCells;
     }
 
     //-------------------------------动画控制-----------------------------------------

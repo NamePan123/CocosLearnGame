@@ -366,7 +366,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": -408.149,
-      "y": -182.199,
+      "y": -186.963,
       "z": 0
     },
     "_lrot": {
@@ -1498,7 +1498,7 @@
       "__expectedType__": "sp.SkeletonData"
     },
     "defaultSkin": "default",
-    "defaultAnimation": "line_2",
+    "defaultAnimation": "line_3",
     "_premultipliedAlpha": true,
     "_timeScale": 1,
     "_preCacheMode": 0,

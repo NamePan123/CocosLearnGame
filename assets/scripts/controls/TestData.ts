@@ -13,9 +13,9 @@ export class TestData
 
     static Round2: number[][] = [
         [1, 4, 7, 1, 2], 
-        [4, 3, 3, 0, 0], 
-        [4, 3, 6, 3, 1], 
-        [4, 1, 4, 0, 4]
+        [5, 2, 1, 5, 2], 
+        [2, 6, 6, 4, 2], 
+        [0, 0, 0, 0, 5]
     ];
 
     static Round3: number[][] = [

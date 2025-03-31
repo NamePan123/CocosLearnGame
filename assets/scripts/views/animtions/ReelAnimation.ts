@@ -35,18 +35,33 @@ export class ReelAnimation extends Component{
              let c:CellData = GameModel.Instance().GetCellDataByIndex(i, this.LineIndex);
              if(c.IsWin){
                 this._DropCount ++;
+                if(celllines.indexOf(this.lineView.GetCellViewByIndex(0)) == -1){
+                    celllines.push(this.lineView.GetCellViewByIndex(0));
+                   }
+              
+                let view:CellView = this.lineView.GetCellViewByIndex(i);
+                let otherView:CellView = null;
+                celllines.push(view);
+                for(let j:number = 0; j < this.lineView.Length; j++){
+                  
+                    otherView = this.lineView.GetCellViewByIndex(j);
+                    if(view != otherView && view.node.position.y < otherView.node.position.y){
+                        if(celllines.indexOf(otherView) == -1){
+                         celllines.push(otherView);
+                        }
+                    }
+                }            
                 //移动到顶部
                 this.lineView.MoveToTop(i);
-                celllines.push(this.lineView.GetCellViewByIndex(i));
              }
         }
 
         //数据重新绑定
         if(this._DropCount > 0){
-            celllines.push(this.lineView.GetCellViewByIndex(0));
+          
             this.lineView.ReSort();
             //重新绑定资源
-            for(let i:number = 0; i < this.lineView.Length - 1; i++){     
+            for(let i:number = 0; i < this.lineView.Length; i++){     
                 let view:CellView = this.lineView.GetCellViewByIndex(i);
                 let data:CellData = GameModel.Instance().GetCellDataByIndex(i, this.LineIndex);
                 view.SetData(data, i);         
@@ -68,6 +83,7 @@ export class ReelAnimation extends Component{
        
     }
 
+    
 
 
     public GameUpdate(gametime:number){
