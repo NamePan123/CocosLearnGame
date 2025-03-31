@@ -6,6 +6,8 @@ const { ccclass, property } = _decorator;
 @ccclass('CellData')
 export class CellData  {
    
+    //数据绑定UI
+    public BingdCellView:CellView;
 
     public get CardID_Index():number{
         return this._index;
@@ -27,8 +29,7 @@ export class CellData  {
         return this._gridCol;
     }
 
-    //数据绑定UI
-    public BingdCellView:CellView;
+ 
 
     public constructor(GridRow:number, GridCol:number, id:number) {
         
@@ -44,6 +45,11 @@ export class CellData  {
         if(refulshView){
             this.BingdCellView.SetIcon(SymbolDefine.GetNameByIndex(index), SymbolDefine.GetNameBlurByIndex(index));  
         }
+     }
+
+
+     public SetWin(){
+        this.BingdCellView.PlayAnim(SymbolDefine.Play_win);
      }
 }   
 

@@ -3,6 +3,7 @@ import { CellData } from './CellData';
 import { SymbolDefine } from './SymbolDefine';
 import { ReelRuleData } from './ReelRuleData';
 import { ReelState } from './ReelState';
+import { TestData } from '../controls/TestData';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameModel')
@@ -18,7 +19,7 @@ export class GameModel  {
     private _reelRuleDatas:ReelRuleData[] = Array<ReelRuleData>();
 
     private _downGrids: CellData[][] = [];//下面3排
-    //private _up_grids: CellData[] = Array<CellData>();//最上面那一排 第一排是看不见的
+
     private constructor() {
        this.InitGrids();
        this.ConfigReelAnimation();
@@ -50,8 +51,10 @@ export class GameModel  {
         return this._downGrids[row][col];
     }
     
+    private _curData:number[][];
     public SetData(data:number[][], refulshView:boolean = true)
     {
+         this._curData = data;
          for(let i:number = 0; i < data.length; i++){
             let cel = data[i];
             for(let j:number = 0; j < cel.length; j++){
@@ -61,6 +64,19 @@ export class GameModel  {
             }
          }
             
+    }
+
+
+    public CheckDatas():boolean{
+        let value:boolean = false;
+        let matchedCells = this.GetWinningIndices(this._curData);
+        matchedCells.forEach(element => {
+         
+           var Cell:CellData = this.GetCellDataByIndex(element.row, element.col);
+           Cell.SetWin();
+           value = true;
+        });
+        return value;
     }
 
     //-------------------------------动画控制-----------------------------------------
@@ -78,6 +94,8 @@ export class GameModel  {
         return  this._reelRuleDatas[index];
     }
 
+    public MaxReelTime:number;
+
     private ConfigReelAnimation(){
 
         this._reelRuleDatas.push(this.CreateReelRuleData(1000, ReelState.IDLE, 0, 50));
@@ -85,6 +103,7 @@ export class GameModel  {
         this._reelRuleDatas.push(this.CreateReelRuleData(1000, ReelState.IDLE, 400, 50));
         this._reelRuleDatas.push(this.CreateReelRuleData(1000, ReelState.IDLE, 600, 50));
         this._reelRuleDatas.push(this.CreateReelRuleData(1000, ReelState.IDLE, 800, 50));
+        this.MaxReelTime = 1900;
     }
 
     private CreateReelRuleData(duration:number, state:ReelState, delay:number, speed:number):ReelRuleData{
@@ -98,4 +117,34 @@ export class GameModel  {
         return rule;
     }
    
+
+    public GetWinningIndices(grid: number[][]): { row: number; col: number }[] {
+        const winningIndices: { row: number; col: number }[] = [];
+      
+        // 遍历每一行
+        grid.forEach((row, rowIndex) => {
+          const firstSymbol = row[0];
+          let count = 1;
+      
+          // 从第二个符号开始判断连续的相同符号数量
+          for (let colIndex = 1; colIndex < row.length; colIndex++) {
+            if (row[colIndex] === firstSymbol) {
+              count++;
+            } else {
+              break;
+            }
+          }
+      
+          // 如果连续相同的符号数量达到3个或以上，则记录这些索引
+          if (count >= 3) {
+            for (let i = 0; i < count; i++) {
+              winningIndices.push({ row: rowIndex, col: i });
+            }
+          }
+        });
+        
+        return winningIndices;
+      }
+
+
 }

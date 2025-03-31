@@ -1,4 +1,4 @@
-import { _decorator, Button, Component, instantiate, Label, Node, Prefab, resources, Sprite } from 'cc';
+import { _decorator, Button, Component, instantiate, Label, Line, Node, Prefab, resources, Sprite } from 'cc';
 import { CellLineView } from './CellLineView';
 import { GameTime } from '../core/GameTime';
 import { IGameTime } from '../core/IGameTime';
@@ -57,7 +57,16 @@ export class WholeSheetView extends Component {
             element.UpdateView(gameTime);
         });
     }
+    
+    //
+    public PlayWobbleAnim(){
 
+        this.celllines.forEach(element => {
+            element.celllines.forEach(line => {
+                line.PlayWobble();
+            });
+        });
+    }
 
 }
 

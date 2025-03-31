@@ -37,6 +37,8 @@ export class GameTime extends Component implements IGameTime
         this._isRuuning = true;
     }
 
+    
+
     // 记录游戏的开始时间
     public StartTime(beginTime: number): void {
         if(this._isRuuning){

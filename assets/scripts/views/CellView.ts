@@ -1,12 +1,15 @@
-import { _decorator, Component, instantiate, Node, Prefab, Sprite, SpriteFrame, UITransform, Vec3 } from 'cc';
+import { _decorator, Component, instantiate, Node, Prefab, Sprite, SpriteFrame, tween, UITransform, Vec3 } from 'cc';
 import { CellData } from '../models/CellData';
 import { CellAnimationController } from './animtions/CellAnimationController';
 import { SymbolDefine } from '../models/SymbolDefine';
+import { WobbleTween } from './animtions/tweenanims/WobbleTween';
 const { ccclass, property } = _decorator;
 
 @ccclass('CellView')
 export class CellView extends Component {
 
+    @property(WobbleTween) 
+    public WobbleAnim:WobbleTween;
 
     @property(Sprite) 
     public icon:Sprite;   
@@ -51,7 +54,7 @@ export class CellView extends Component {
         if(value){
              this._anim.Reset();
         }else{
-            this.PlayAnim(this._icon_name);
+            this.PlayDefault(this._icon_name);
         }  
     }
 
@@ -72,7 +75,7 @@ export class CellView extends Component {
         this.icon.node.active = true;
         this._anim.Reset();
         //这2个动画需要播放idle
-        this.PlayAnim(name);
+        this.PlayDefault(name);
     }
 
     public Move(speed:number):void
@@ -107,7 +110,7 @@ export class CellView extends Component {
     }
 
 
-    private PlayAnim(name:string){
+    private PlayDefault(name:string){
         
         if((name == SymbolDefine.Number_8 || name == SymbolDefine.Number_7) && !this._isMoveing){
             this.icon.node.active = false;
@@ -116,8 +119,20 @@ export class CellView extends Component {
                  this._anim.InitView(name, SymbolDefine.Play_idle, true);
          }, 0.6);
          }
-
     }
+
+
+    public PlayAnim(animName:string){
+ 
+        this.icon.node.active = false;
+        this._anim.InitView(this._icon_name, animName);          
+    }
+
+    public PlayWobble(){
+        
+        this.WobbleAnim.wobble(1500);
+    }
+   
 }
 
 

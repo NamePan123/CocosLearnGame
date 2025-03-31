@@ -58,6 +58,7 @@ export class GameController extends GameTime {
     private isFrist:boolean = true;
     onStartBtnClick(){
 
+        
         if(this.CurrentTime() > 2000 || this.isFrist) {
             //模拟服务器发送2秒时间，收到后才可以点击下次开始
             this.InitTestData();
@@ -99,6 +100,7 @@ export class GameController extends GameTime {
         if( this.TestIndex == 5){
             this.TestIndex = 0;
         }
+        this._roundEnd = false;
     }
 
 
@@ -112,13 +114,29 @@ export class GameController extends GameTime {
         this.Resume();
     }
 
-
+    private _roundEnd:boolean = false;
     public override GameUpdate(gameTime: number): void {
         
         this.timeLabel.string = Math.round(gameTime).toString();
         if(this.ISRunning && this.isPaused == false){
             this.reelView.GameUpdate(gameTime);
+            //等待结束 执行消除动画
+            if(gameTime > GameModel.Instance().MaxReelTime && !this._roundEnd){
+                
+                //检查一下是否要消除
+                if(GameModel.Instance().CheckDatas()){
+
+                    setTimeout(() => {
+                        this.reelView.PlayWobbleAnim();
+                }, 1500);
+                   
+                }
+
+                this._roundEnd = true;
+            }
         }
+      
+       
     }
 
 }
