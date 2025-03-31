@@ -1,6 +1,7 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, Node, UITransform } from 'cc';
 import { CellView } from './CellView';
 import { ReelAnimation } from './animtions/ReelAnimation';
+import { SymbolDefine } from '../models/SymbolDefine';
 const { ccclass, property } = _decorator;
 
 @ccclass('CellLineView')
@@ -15,7 +16,7 @@ export class CellLineView extends Component {
     }
 
     @property([CellView]) 
-    public  celllines:CellView[] = Array<CellView>();   
+    public celllines:CellView[] = Array<CellView>();   
     start() {
 
     }
@@ -67,6 +68,28 @@ export class CellLineView extends Component {
             element.ToBlur(false);
         });
     }
+
+    //移动到顶部
+    public MoveToTop(index:number){
+
+        let cell:CellView = this.celllines[index];
+        let maxy:number = -1000;
+        this.celllines.forEach(element => {
+            if(element != cell){
+                if(element.node.position.y > maxy){
+                    maxy = element.node.position.y;
+                }       
+            }
+        });
+        let height = 146;//cell.node.getComponent(UITransform).height / 2;
+        cell.node.setPosition(0, maxy + height);
+    }
+
+    public ReSort(){
+        this.celllines.sort((a, b) => b.node.position.y - a.node.position.y);
+    }
+
+
 }
 
 

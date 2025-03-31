@@ -44,7 +44,7 @@ export class WholeSheetView extends Component {
 
                 view = singleLine.GetCellViewByIndex(j);
                 data = model.GetCellDataByIndex(j, i);
-                view.data = data;
+                view.SetData(data, j);
                 view.SetAnimPrefab(this.CellAnimationPrefab);
             }        
         }
@@ -59,12 +59,22 @@ export class WholeSheetView extends Component {
     }
     
     //
-    public PlayWobbleAnim(){
+    public PlayWobbleAnim(value:boolean){
 
         this.celllines.forEach(element => {
             element.celllines.forEach(line => {
-                line.PlayWobble();
+                line.PlayWobble(value);
             });
+        });
+    }
+
+
+    
+
+    public PlayDropAnim(){
+
+        this.celllines.forEach(element => {
+          element.ReelAnim.StartDrop();
         });
     }
 

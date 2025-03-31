@@ -59,10 +59,11 @@ export class GameController extends GameTime {
     onStartBtnClick(){
 
         
-        if(this.CurrentTime() > 2000 || this.isFrist) {
+        if(!this.ISRunning || this.isFrist) {
             //模拟服务器发送2秒时间，收到后才可以点击下次开始
             this.InitTestData();
             this.isFrist = false;
+          
         }
         else{
             console.log("时间还未到");
@@ -123,21 +124,33 @@ export class GameController extends GameTime {
             //等待结束 执行消除动画
             if(gameTime > GameModel.Instance().MaxReelTime && !this._roundEnd){
                 
+                this.Stop();
                 //检查一下是否要消除
                 if(GameModel.Instance().CheckDatas()){
 
                     setTimeout(() => {
-                        this.reelView.PlayWobbleAnim();
-                }, 1500);
+                        this.reelView.PlayWobbleAnim(true);
+                        this.scheduleOnce(() => this.StartDrop(), 1);
+
+                }, 800);
                    
                 }
-
+                
                 this._roundEnd = true;
             }
-        }
-      
-       
+        } 
     }
+
+    //开始掉落动画，计算每一组的掉落
+    private StartDrop():void{
+        this.reelView.PlayWobbleAnim(false);
+        this.reelView.PlayDropAnim();
+        setTimeout(() => {
+            GameModel.Instance().ResetReel();
+            this._roundEnd = false;
+
+    }, 2);
+    } 
 
 }
 

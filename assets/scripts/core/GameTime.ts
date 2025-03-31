@@ -57,7 +57,7 @@ export class GameTime extends Component implements IGameTime
 
     // 获取当前的游戏时间（包括暂停时间）
     public CurrentTime(): number {
-        if (this._isPaused) {
+        if (this._isPaused ) {
             // 返回暂停时的有效游戏时间
             return this._lastPauseTime - this._startTime - this._pausedTime;
         }
@@ -88,6 +88,11 @@ export class GameTime extends Component implements IGameTime
         } else {
             //console.log("Game is already running.");
         }
+    }
+
+    public Stop():void{
+
+        this._isRuuning = false;
     }
 }
 

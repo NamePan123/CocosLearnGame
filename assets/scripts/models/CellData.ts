@@ -8,6 +8,7 @@ export class CellData  {
    
     //数据绑定UI
     public BingdCellView:CellView;
+    public IsWin:boolean = false;
 
     public get CardID_Index():number{
         return this._index;
@@ -48,8 +49,12 @@ export class CellData  {
      }
 
 
-     public SetWin(){
-        this.BingdCellView.PlayAnim(SymbolDefine.Play_win);
+     public SetWin(value:boolean,refulshView:boolean = false){
+
+        this.IsWin = value;
+        if(refulshView){
+            this.BingdCellView.PlayAnim(SymbolDefine.Play_win);
+        }
      }
 }   
 

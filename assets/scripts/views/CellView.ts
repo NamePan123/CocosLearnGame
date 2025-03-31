@@ -1,4 +1,4 @@
-import { _decorator, Component, instantiate, Node, Prefab, Sprite, SpriteFrame, tween, UITransform, Vec3 } from 'cc';
+import { _decorator, Component, instantiate, Label, Node, Prefab, Sprite, SpriteFrame, tween, UITransform, Vec3 } from 'cc';
 import { CellData } from '../models/CellData';
 import { CellAnimationController } from './animtions/CellAnimationController';
 import { SymbolDefine } from '../models/SymbolDefine';
@@ -7,6 +7,9 @@ const { ccclass, property } = _decorator;
 
 @ccclass('CellView')
 export class CellView extends Component {
+
+    @property(Label) 
+    public lable:Label;
 
     @property(WobbleTween) 
     public WobbleAnim:WobbleTween;
@@ -29,12 +32,29 @@ export class CellView extends Component {
     private _topPosition:number = 584;
 
     private _defaultPosition:number;
-    public set data(value:CellData)
+    public SetData(value:CellData, index:number)
     {
         //数据双向绑定UI
         this._data = value;
         this._data.BingdCellView = this;
-        this._defaultPosition = this.node.position.y;
+        if(index == 0){
+            this._defaultPosition =  584.402;
+        }
+
+        if(index == 1){
+            this._defaultPosition =  437.736;
+        }
+
+        if(index == 2){
+            this._defaultPosition =  291.58;
+        }
+
+        if(index == 3){
+            this._defaultPosition =  146;
+        }
+
+
+        this.lable.string = value.GridRow.toString();
     }
     
     public SetAnimPrefab(prefab:Prefab):void
@@ -128,10 +148,17 @@ export class CellView extends Component {
         this._anim.InitView(this._icon_name, animName);          
     }
 
-    public PlayWobble(){
+    public PlayWobble(value:boolean){
         
-        this.WobbleAnim.wobble(1500);
+        if(value){
+            this.WobbleAnim.wobble();
+        }
+        else{
+            this.WobbleAnim.StopWobble();
+        }
     }
+
+  
    
 }
 

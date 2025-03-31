@@ -15,7 +15,7 @@ export class WobbleTween extends Component {
         //this.scheduleOnce(() => this.stopWobble(), 2); 
     }
 
-    public wobble(dur:number) {
+    public wobble() {
         this.wobbleTween = tween(this.node)
             .repeatForever(
                 tween()
@@ -23,13 +23,9 @@ export class WobbleTween extends Component {
                     .to(this.duration, { eulerAngles: new Vec3(0, 0, -this.maxAngle) }, { easing: "sineInOut" })
             )
             .start();
-
-            setTimeout(() => {
-                   // this.stopWobble();
-            }, dur);
     }
 
-    stopWobble() {
+    public StopWobble() {
         if (this.wobbleTween) {
             this.wobbleTween.stop();  // 停止 Tween
             this.wobbleTween = null;  // 清空引用，防止重复执行

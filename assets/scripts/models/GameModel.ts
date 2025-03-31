@@ -73,7 +73,7 @@ export class GameModel  {
         matchedCells.forEach(element => {
          
            var Cell:CellData = this.GetCellDataByIndex(element.row, element.col);
-           Cell.SetWin();
+           Cell.SetWin(true, true);
            value = true;
         });
         return value;
@@ -86,6 +86,13 @@ export class GameModel  {
 
         this._reelRuleDatas.forEach(element => {
             element.Start = false;
+        });
+
+
+        this._downGrids.forEach(element => {
+            element.forEach(data => {
+                data.SetWin(false, false);
+            });
         });
     }
 
