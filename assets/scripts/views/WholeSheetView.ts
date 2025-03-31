@@ -1,4 +1,4 @@
-import { _decorator, Button, Component, instantiate, Label, Line, Node, Prefab, resources, Sprite } from 'cc';
+import { _decorator, Button, Component, instantiate, Label, Line, Node, Prefab, resources, sp, Sprite } from 'cc';
 import { CellLineView } from './CellLineView';
 import { GameTime } from '../core/GameTime';
 import { IGameTime } from '../core/IGameTime';
@@ -13,7 +13,10 @@ const { ccclass, property } = _decorator;
 @ccclass('WholeSheetView')
 export class WholeSheetView extends Component {
 
-   
+    
+    @property(sp.Skeleton) 
+    public LineAnim:sp.Skeleton;
+
     @property(Label) 
     public TimeLabel:Label;
 
@@ -69,7 +72,13 @@ export class WholeSheetView extends Component {
     }
 
 
-    
+    public PlayWinLine(name:string):void{
+        this.LineAnim.node.active = true;
+        this.LineAnim.setAnimation(0, name, false);
+        setTimeout(() => {
+            this.LineAnim.node.active = false;
+        }, 500);
+    }
 
     public PlayDropAnim(){
 

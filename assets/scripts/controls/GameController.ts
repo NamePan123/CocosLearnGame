@@ -3,6 +3,7 @@ import { WholeSheetView } from '../views/WholeSheetView';
 import { GameModel } from '../models/GameModel';
 import { TestData } from './TestData';
 import { GameTime } from '../core/GameTime';
+import { SymbolDefine } from '../models/SymbolDefine';
 
 const { ccclass, property } = _decorator;
 
@@ -127,7 +128,7 @@ export class GameController extends GameTime {
                 this.Stop();
                 //检查一下是否要消除
                 if(GameModel.Instance().CheckDatas()){
-
+                    this.reelView.PlayWinLine(SymbolDefine.Line_2);
                     setTimeout(() => {
                         this.reelView.PlayWobbleAnim(true);
                         this.scheduleOnce(() => this.StartDrop(), 1);
