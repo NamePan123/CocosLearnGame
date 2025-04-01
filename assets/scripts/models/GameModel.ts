@@ -110,7 +110,7 @@ export class GameModel  {
         this._reelRuleDatas.push(this.CreateReelRuleData(1000, ReelState.IDLE, 400, 50));
         this._reelRuleDatas.push(this.CreateReelRuleData(1000, ReelState.IDLE, 600, 50));
         this._reelRuleDatas.push(this.CreateReelRuleData(1000, ReelState.IDLE, 800, 50));
-        this.MaxReelTime = 1900;
+        this.MaxReelTime = 2600;
     }
 
     private CreateReelRuleData(duration:number, state:ReelState, delay:number, speed:number):ReelRuleData{
