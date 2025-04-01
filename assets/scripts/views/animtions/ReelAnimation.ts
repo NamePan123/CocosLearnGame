@@ -24,33 +24,21 @@ export class ReelAnimation extends Component{
         this._reel = reel;
     }
     private _DropCount:number = 0;
-    private _isDrop = false;
+
     public StartDrop():void{
 
         let celllines:CellView[] = Array<CellView>();   
         this._DropCount = 0;   
         //计算移动的数量和移动到顶部
         for(let i:number = 0; i < this.lineView.Length; i++){
+            //判断是否获奖
              let c:CellData = GameModel.Instance().GetCellDataByIndex(i, this.LineIndex);
              if(c.IsWin){
-                this._DropCount ++;
-                if(celllines.indexOf(this.lineView.GetCellViewByIndex(0)) == -1){
-                    celllines.push(this.lineView.GetCellViewByIndex(0));
-                   }
-              
+
+                this._DropCount ++;    
                 let view:CellView = this.lineView.GetCellViewByIndex(i);
-                let otherView:CellView = null;
-                celllines.push(view);
                 //将它上面的都纳入移动的数组中，等下做动画处理
-                for(let j:number = 0; j < this.lineView.Length; j++){
-                  
-                    otherView = this.lineView.GetCellViewByIndex(j);
-                    if(view != otherView && view.node.position.y < otherView.node.position.y){
-                        if(celllines.indexOf(otherView) == -1){
-                         celllines.push(otherView);
-                        }
-                    }
-                }            
+                this.CollectionDropUI(view, celllines);          
                 //移动到顶部
                 this.lineView.MoveToTop(i);
              }
@@ -58,18 +46,34 @@ export class ReelAnimation extends Component{
 
         //因为位置变了，数据从新根据位置绑定UI
         if(this._DropCount > 0){
-            
-            //重新绑定
+            //把隐藏的也加入到掉落队列中
+            celllines.unshift(this.lineView.GetCellViewByIndex(0));
+            //整理位置，重新绑定UI和数据
             this.lineView.BingDataToUI(GameModel.Instance());         
         }
 
         //开始模拟往下掉的动画
-        this._isDrop = true;
         celllines.forEach(element => {
             this.dropWithBounce(element.node, 0, element.node.position.y - 146);    
         });
        
     }
+
+    //收集要掉落的UI资源
+    private CollectionDropUI(view:CellView, cells:CellView[]):void{
+
+        cells.push(view);
+        for(let j:number = 0; j < this.lineView.Length; j++){
+                  
+            let otherView = this.lineView.GetCellViewByIndex(j);
+            if(view != otherView && view.node.position.y < otherView.node.position.y){
+                if(cells.indexOf(otherView) == -1){
+                    cells.push(otherView);
+                }
+            }
+        }          
+    }
+
 
 
     public GameUpdate(gametime:number){
@@ -110,7 +114,7 @@ export class ReelAnimation extends Component{
         }
     }
 
-
+    //弹起动画
     private PlayPopUpAnim(){
       
         this._reelEnd = true;

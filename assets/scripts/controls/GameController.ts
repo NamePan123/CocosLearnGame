@@ -100,7 +100,7 @@ export class GameController extends GameTime {
         GameModel.Instance().ResetReel();
         this.Reset();
         this.StartTime(0);
-
+        this.StartBtn.node.active = false;
 
         this.TestIndex ++;
         if( this.TestIndex == 5){
@@ -116,7 +116,6 @@ export class GameController extends GameTime {
     }
 
     onReplayBtnClick(){
-
         this.Resume();
     }
 
@@ -130,24 +129,31 @@ export class GameController extends GameTime {
             if(gameTime > GameModel.Instance().MaxReelTime && !this._roundEnd){
                 
                 this.Stop();
-                this._roundEnd = true;
+                
+               
                 let checked = GameModel.Instance().CheckDatas()
                 //检查一下是否要消除
                 if(checked.length > 0){
                     this._roundEnd = false;
+                    //这里可以编写一个函数，判断是那种中奖的类型，来播放相应的动画
                     if(checked[0].row == 1){
                         this.reelView.PlayWinLine(SymbolDefine.Line_2);
                     }
                     if(checked[0].row == 3){
                         this.reelView.PlayWinLine(SymbolDefine.Line_3);
                     }
-                   
+                    //优先播放晃动，再播放掉落
                     setTimeout(() => {
                         this.reelView.PlayWobbleAnim(true);
                         this.scheduleOnce(() => this.StartDrop(), 1);
 
                 }, 800);
                    
+                }
+                else{
+
+                    this._roundEnd = true;
+                    this.StartBtn.node.active = true;
                 }
                 
          
@@ -160,8 +166,10 @@ export class GameController extends GameTime {
         this.reelView.PlayWobbleAnim(false);
         this.reelView.PlayDropAnim();
         setTimeout(() => {
+            //重置数据
             GameModel.Instance().ResetReel();
             this._roundEnd = true;
+            this.StartBtn.node.active = true;
 
     }, 1200);
     } 

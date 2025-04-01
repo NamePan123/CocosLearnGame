@@ -124,7 +124,7 @@ export class GameModel  {
         return rule;
     }
    
-
+    //判断中奖规则的结果
     public GetWinningIndices(grid: number[][]): { row: number; col: number }[] {
         const winningIndices: { row: number; col: number }[] = [];
       
