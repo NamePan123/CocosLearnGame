@@ -81,7 +81,7 @@ export class CellLineView extends Component {
                 }       
             }
         });
-        let height = 146;//cell.node.getComponent(UITransform).height / 2;
+        let height = 146;//cell.node.getComponent(UITransform).height / 2;图片高度因为透明区域不符合
         cell.node.setPosition(0, maxy + height);
     }
 
