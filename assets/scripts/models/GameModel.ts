@@ -124,12 +124,69 @@ export class GameModel  {
         return rule;
     }
    
+
+
+    public MoveMatrix(deleteIndices: { row: number, col: number }[]): void {
+
+       
+        const copyData = this._curData.map(row => row.slice());
+        console.log(deleteIndices);
+
+        const rowCount = copyData.length;
+        const colCount = copyData[0].length;
+    
+        // 1. 删除指定位置的数据（用 null 表示删除）
+        // 这里可以加上边界检查，确保不会访问超出索引的元素
+        for (const { row, col } of deleteIndices) {
+            if (row >= 0 && row < rowCount && col >= 0 && col < colCount) {
+                copyData[row][col] = -1;
+            }
+        }
+    
+        // 2. 对每一列处理：将未删除的数字下移（保持原有顺序），顶部空缺用 11～20 的随机数填充
+        for (let col = 0; col < colCount; col++) {
+            // 收集当前列中未被删除的数字
+            const remain: number[] = [];
+            for (let row = 0; row < rowCount; row++) {
+                if (copyData[row][col] !== -1) {
+                    remain.push(copyData[row][col]);
+                }
+            }
+    
+            // 计算需要填充的空缺数
+            const missingCount = rowCount - remain.length;
+    
+            // 生成 missingCount随机数
+            const randomNumber = Math.floor(Math.random() * 9)
+            const fillValues: number[] = Array.from({ length: missingCount }, () => randomNumber);
+    
+            // 组合新列数据：先填充随机数，再接上剩余数据
+            const newCol = fillValues.concat(remain);
+    
+            // 将新列数据写回新矩阵
+            for (let row = 0; row < rowCount; row++) {
+                copyData[row][col] = newCol[row];
+            }
+        }
+
+        this.SetData(copyData, true);
+        
+    }
+
+
+
+
     //判断中奖规则的结果
     public GetWinningIndices(grid: number[][]): { row: number; col: number }[] {
         const winningIndices: { row: number; col: number }[] = [];
       
         // 遍历每一行
         grid.forEach((row, rowIndex) => {
+
+          if(rowIndex == 0){ 
+             return;
+          }
+
           const firstSymbol = row[0];
           let count = 1;
       

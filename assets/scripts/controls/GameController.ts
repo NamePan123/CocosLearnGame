@@ -120,6 +120,7 @@ export class GameController extends GameTime {
     }
 
     private _roundEnd:boolean = false;
+    private _checkAgain:boolean = false;
     public override GameUpdate(gameTime: number): void {
         
         this.timeLabel.string = Math.round(gameTime).toString();
@@ -130,36 +131,46 @@ export class GameController extends GameTime {
                 
                 this.Stop();
                 
+                this.ResultCheck();
                
-                let checked = GameModel.Instance().CheckDatas()
-                //检查一下是否要消除
-                if(checked.length > 0){
-                    this._roundEnd = false;
-                    //这里可以编写一个函数，判断是那种中奖的类型，来播放相应的动画
-                    if(checked[0].row == 1){
-                        this.reelView.PlayWinLine(SymbolDefine.Line_2);
-                    }
-                    if(checked[0].row == 3){
-                        this.reelView.PlayWinLine(SymbolDefine.Line_3);
-                    }
-                    //优先播放晃动，再播放掉落
-                    setTimeout(() => {
-                        this.reelView.PlayWobbleAnim(true);
-                        this.scheduleOnce(() => this.StartDrop(), 1);
-
-                }, 800);
-                   
-                }
-                else{
-
-                    this._roundEnd = true;
-                    this.StartBtn.node.active = true;
-                }
-                
          
             }
         } 
     }
+
+    private _checked:{ row: number; col: number }[];
+    private ResultCheck():void{
+
+        this._checked = GameModel.Instance().CheckDatas()
+        //检查一下是否要消除
+        if(this._checked.length > 0){
+            
+            this._roundEnd = false;
+            //这里可以编写一个函数，判断是那种中奖的类型，来播放相应的动画
+            if(this._checked[0].row == 1){
+                this.reelView.PlayWinLine(SymbolDefine.Line_2);
+            }
+            if(this._checked[0].row == 3){
+                this.reelView.PlayWinLine(SymbolDefine.Line_3);
+            }
+          
+            //优先播放晃动，再播放掉落
+            setTimeout(() => {
+                this.reelView.PlayWobbleAnim(true);
+                this.scheduleOnce(() => this.StartDrop(), 1);
+          
+            }, 800);
+           
+        }
+        else{
+
+            this._roundEnd = true;
+            this.StartBtn.node.active = true;
+        }
+        
+
+    }
+
 
     //开始掉落动画，计算每一组的掉落
     private StartDrop():void{
@@ -168,10 +179,12 @@ export class GameController extends GameTime {
         setTimeout(() => {
             //重置数据
             GameModel.Instance().ResetReel();
-            this._roundEnd = true;
-            this.StartBtn.node.active = true;
+            GameModel.Instance().MoveMatrix(this._checked);
+            //再次检查
+            this.ResultCheck();
+    
 
-    }, 1200);
+    }, 1500);
     } 
 
 }

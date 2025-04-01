@@ -87,6 +87,7 @@ export class CellLineView extends Component {
         //这样写可能会存在一定的误差，因为具体高度是大概的测量
         let height = 146;//cell.node.getComponent(UITransform).height / 2;图片高度因为透明区域不符合高度规则
         cell.node.setPosition(0, maxy + height);
+        cell.icon.node.active = true;
     }
 
     //排序，如果元素之间位置有变化，从新排序
@@ -101,6 +102,7 @@ export class CellLineView extends Component {
             let view:CellView = this.GetCellViewByIndex(i);
             let data:CellData = model.GetCellDataByIndex(i, this.ReelAnim.LineIndex);
             view.SetData(data, i); 
+            view.icon.node.active = true;
         }       
     }
 
