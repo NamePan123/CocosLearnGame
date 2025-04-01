@@ -28,7 +28,6 @@ export class ReelAnimation extends Component{
     public StartDrop():void{
 
         let celllines:CellView[] = Array<CellView>();   
-       
         this._DropCount = 0;   
         //计算移动的数量和移动到顶部
         for(let i:number = 0; i < this.lineView.Length; i++){
@@ -42,6 +41,7 @@ export class ReelAnimation extends Component{
                 let view:CellView = this.lineView.GetCellViewByIndex(i);
                 let otherView:CellView = null;
                 celllines.push(view);
+                //将它上面的都纳入移动的数组中，等下做动画处理
                 for(let j:number = 0; j < this.lineView.Length; j++){
                   
                     otherView = this.lineView.GetCellViewByIndex(j);
@@ -71,9 +71,6 @@ export class ReelAnimation extends Component{
        // let names:string[] = SymbolDefine.GetRandomIcon();
         //const randomNumber = Math.floor(Math.random() * 9);
         //data.SetIndex(randomNumber, true);
-
-
-
 
         //开始模拟往下掉的动画
         this._isDrop = true;
@@ -108,19 +105,20 @@ export class ReelAnimation extends Component{
 
     private PlayMove(gametime:number){
            //模拟向上
-           if(gametime >= this._reel.Delay + this._reel.UPReelTime){
+        if(gametime >= this._reel.Delay + this._reel.UPReelTime)
+        {
             //初始化
-         if(!this._reel.Start){
-             this.lineView.SartMove();
-             this._reel.Start = true;
-             this._reelEnd = false;
-         }
-         this.lineView.Move(this._reel.Speed);
-     }
-     else if(gametime >= this._reel.Delay - this._reel.UPReelTime){
-         //回弹效果
-         this.lineView.Move(-this._reel.UpwardSpeed);
-     }
+            if(!this._reel.Start){
+                this.lineView.SartMove();
+                this._reel.Start = true;
+                this._reelEnd = false;
+            }
+            this.lineView.Move(this._reel.Speed);
+        }
+        else if(gametime >= this._reel.Delay - this._reel.UPReelTime){
+            //回弹效果
+            this.lineView.Move(-this._reel.UpwardSpeed);
+        }
     }
 
 
@@ -145,9 +143,8 @@ export class ReelAnimation extends Component{
         tween(node)
         .delay(delay) // 先等待一段时间
         .to(0.3, { position: new Vec3(node.position.x, toPos, 0) }, { easing: "quadIn" }) // 模拟掉落
-        .to(0.3, { position: new Vec3(node.position.x, toPos + 2, 0) }, { easing: "bounceOut" }) // 反弹
-        //.to(0.3, { position: new Vec3(node.position.x, toPos - 2, 0) }, { easing: "quadIn" }) // 模拟掉落
-        //.to(0.3, { position: new Vec3(node.position.x, toPos, 0) }, { easing: "bounceOut" }) // 反弹
+        .to(0.2, { position: new Vec3(node.position.x, toPos + 20, 0) }, { easing: "bounceOut" }) // 反弹
+        .to(0.1, { position: new Vec3(node.position.x, toPos , 0) }, { easing: "quadIn" }) // 模拟掉落
         .start();
     }
 
