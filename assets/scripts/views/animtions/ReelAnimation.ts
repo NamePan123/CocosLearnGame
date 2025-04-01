@@ -119,15 +119,15 @@ export class ReelAnimation extends Component{
       
         this._reelEnd = true;
         tween(this.node)
-        .to(0.2, { position: new Vec3(this.lineView.node.position.x, 2, 0) }, { easing: 'sineInOut' })
+        .to(0.15, { position: new Vec3(this.lineView.node.position.x, -30, 0) }, { easing: 'sineInOut' })
         .start();
 
             this.scheduleOnce(() => {
                             
             tween(this.node)
-            .to(0.2, { position: new Vec3(this.lineView.node.position.x, -2, 0) }, { easing: 'sineInOut' })
+            .to(0.15, { position: new Vec3(this.lineView.node.position.x, 0, 0) }, { easing: 'sineInOut' })
             .start();
-                    }, 0.2);
+                    }, 0.15);
     }
 
     //掉落反弹动画
