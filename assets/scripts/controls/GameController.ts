@@ -60,7 +60,7 @@ export class GameController extends GameTime {
     onStartBtnClick(){
 
         
-        if(!this.ISRunning || this.isFrist) {
+        if(this.isFrist || this._roundEnd) {
             //模拟服务器发送2秒时间，收到后才可以点击下次开始
             this.InitTestData();
             this.isFrist = false;
@@ -130,7 +130,7 @@ export class GameController extends GameTime {
                 let checked = GameModel.Instance().CheckDatas()
                 //检查一下是否要消除
                 if(checked.length > 0){
-
+                    this._roundEnd = false;
                     if(checked[0].row == 1){
                         this.reelView.PlayWinLine(SymbolDefine.Line_2);
                     }
@@ -157,9 +157,9 @@ export class GameController extends GameTime {
         this.reelView.PlayDropAnim();
         setTimeout(() => {
             GameModel.Instance().ResetReel();
-            this._roundEnd = false;
+            this._roundEnd = true;
 
-    }, 2);
+    }, 2.5);
     } 
 
 }
