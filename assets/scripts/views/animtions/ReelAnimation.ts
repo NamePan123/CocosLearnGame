@@ -56,21 +56,12 @@ export class ReelAnimation extends Component{
              }
         }
 
-        //数据重新绑定
+        //因为位置变了，数据从新根据位置绑定UI
         if(this._DropCount > 0){
-          
-            this.lineView.ReSort();
-            //重新绑定资源
-            for(let i:number = 0; i < this.lineView.Length; i++){     
-                let view:CellView = this.lineView.GetCellViewByIndex(i);
-                let data:CellData = GameModel.Instance().GetCellDataByIndex(i, this.LineIndex);
-                view.SetData(data, i);         
-            }
+            
+            //重新绑定
+            this.lineView.BingDataToUI(GameModel.Instance());         
         }
-
-       // let names:string[] = SymbolDefine.GetRandomIcon();
-        //const randomNumber = Math.floor(Math.random() * 9);
-        //data.SetIndex(randomNumber, true);
 
         //开始模拟往下掉的动画
         this._isDrop = true;
@@ -79,8 +70,6 @@ export class ReelAnimation extends Component{
         });
        
     }
-
-    
 
 
     public GameUpdate(gametime:number){
@@ -109,7 +98,7 @@ export class ReelAnimation extends Component{
         {
             //初始化
             if(!this._reel.Start){
-                this.lineView.SartMove();
+                this.lineView.ReadyToMove();
                 this._reel.Start = true;
                 this._reelEnd = false;
             }
@@ -137,8 +126,8 @@ export class ReelAnimation extends Component{
                     }, 0.2);
     }
 
-
-    dropWithBounce(node, delay, toPos) {
+    //掉落反弹动画
+    private dropWithBounce(node, delay, toPos) {
         let startY = node.position.y;  // 记录初始 Y 轴
         tween(node)
         .delay(delay) // 先等待一段时间

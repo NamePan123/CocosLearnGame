@@ -6,7 +6,7 @@ import { GameTime } from '../core/GameTime';
 import { SymbolDefine } from '../models/SymbolDefine';
 
 const { ccclass, property } = _decorator;
-
+//处理游戏逻辑的
 @ccclass('GameController')
 export class GameController extends GameTime {
 

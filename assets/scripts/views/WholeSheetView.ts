@@ -42,14 +42,8 @@ export class WholeSheetView extends Component {
             let singleLine:CellLineView = this.celllines[i];     
             let ruleData:ReelRuleData = model.GetReelRuleDataByIndex(i);
             singleLine.ReelAnim.Init(ruleData);
-                                    //4
-            for(let j:number = 0; j < singleLine.Length; j++){
-
-                view = singleLine.GetCellViewByIndex(j);
-                data = model.GetCellDataByIndex(j, i);
-                view.SetData(data, j);
-                view.SetAnimPrefab(this.CellAnimationPrefab);
-            }        
+            singleLine.CreateAnim(this.CellAnimationPrefab);
+            singleLine.BingDataToUI(model);
         }
     }
 
@@ -61,7 +55,7 @@ export class WholeSheetView extends Component {
         });
     }
     
-    //
+    //晃动动画
     public PlayWobbleAnim(value:boolean){
 
         this.celllines.forEach(element => {
@@ -71,7 +65,7 @@ export class WholeSheetView extends Component {
         });
     }
 
-
+    //WIN的LINE 动画
     public PlayWinLine(name:string):void{
         this.LineAnim.node.active = true;
         this.LineAnim.setAnimation(0, name, false);
@@ -80,6 +74,7 @@ export class WholeSheetView extends Component {
         }, 500);
     }
 
+    //播放掉落的动画
     public PlayDropAnim(){
 
         this.celllines.forEach(element => {

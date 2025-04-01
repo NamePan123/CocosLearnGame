@@ -1,7 +1,9 @@
-import { _decorator, Component, Node, UITransform } from 'cc';
+import { _decorator, Component, Node, Prefab, UITransform } from 'cc';
 import { CellView } from './CellView';
 import { ReelAnimation } from './animtions/ReelAnimation';
 import { SymbolDefine } from '../models/SymbolDefine';
+import { GameModel } from '../models/GameModel';
+import { CellData } from '../models/CellData';
 const { ccclass, property } = _decorator;
 
 @ccclass('CellLineView')
@@ -56,13 +58,14 @@ export class CellLineView extends Component {
         });
     }
 
-    public SartMove():void {
+    //好，准备开始移动了
+    public ReadyToMove():void {
         this.celllines.forEach(element => {
             element.StartMove();
             element.ToBlur(true);
         });
     }
-
+     //停止移动
     public EndMove():void {
         this.celllines.forEach(element => {
             element.ToBlur(false);
@@ -81,14 +84,33 @@ export class CellLineView extends Component {
                 }       
             }
         });
-        let height = 146;//cell.node.getComponent(UITransform).height / 2;图片高度因为透明区域不符合
+        //这样写可能会存在一定的误差，因为具体高度是大概的测量
+        let height = 146;//cell.node.getComponent(UITransform).height / 2;图片高度因为透明区域不符合高度规则
         cell.node.setPosition(0, maxy + height);
     }
 
+    //排序，如果元素之间位置有变化，从新排序
     public ReSort(){
         this.celllines.sort((a, b) => b.node.position.y - a.node.position.y);
     }
 
+    //绑定UI和数据之间的联系
+    public BingDataToUI(model:GameModel):void{
+        this.ReSort();
+        for(let i:number = 0; i < this.Length; i++){
+            let view:CellView = this.GetCellViewByIndex(i);
+            let data:CellData = model.GetCellDataByIndex(i, this.ReelAnim.LineIndex);
+            view.SetData(data, i); 
+        }       
+    }
+
+    //设置动画 就是WIN奖励和默认的动画
+    public CreateAnim(anim:Prefab):void{
+
+        this.celllines.forEach(view => {
+            view.SetAnimPrefab(anim);    
+        });
+    }
 
 }
 
