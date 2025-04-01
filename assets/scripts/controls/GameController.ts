@@ -62,8 +62,12 @@ export class GameController extends GameTime {
         
         if(this.isFrist || this._roundEnd) {
             //模拟服务器发送2秒时间，收到后才可以点击下次开始
-            this.InitTestData();
-            this.isFrist = false;
+            
+            setTimeout(() => {
+                this.InitTestData();
+                this.isFrist = false;
+    
+            }, 600);
           
         }
         else{
@@ -159,7 +163,7 @@ export class GameController extends GameTime {
             GameModel.Instance().ResetReel();
             this._roundEnd = true;
 
-    }, 2.5);
+    }, 1200);
     } 
 
 }
