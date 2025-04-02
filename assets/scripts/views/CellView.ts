@@ -39,7 +39,7 @@ export class CellView extends Component {
     {
         //数据双向绑定UI
         this._data = value;
-        this._data.BingdCellView = this;
+        this._data.BindCellView = this;
         this._defaultPosition = this.GetPositionByIndex(index);  
         this.lable.string = value.GridRow.toString();
         this.CellIndex = index;
