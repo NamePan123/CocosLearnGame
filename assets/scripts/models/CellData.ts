@@ -7,7 +7,7 @@ const { ccclass, property } = _decorator;
 export class CellData  {
    
     //数据绑定UI
-    public BindCellView:CellView;
+    public BingdCellView:CellView;
     public IsWin:boolean = false;
 
     public get CardID_Index():number{
@@ -44,7 +44,7 @@ export class CellData  {
         
         this._index = index;
         if(refulshView){
-            this.BindCellView.SetIcon(SymbolDefine.GetNameByIndex(index), SymbolDefine.GetNameBlurByIndex(index));  
+            this.BingdCellView.SetIcon(SymbolDefine.GetNameByIndex(index), SymbolDefine.GetNameBlurByIndex(index));  
         }
      }
 
@@ -53,7 +53,7 @@ export class CellData  {
 
         this.IsWin = value;
         if(refulshView){
-            this.BindCellView.PlayAnim(SymbolDefine.Play_win);
+            this.BingdCellView.PlayAnim(SymbolDefine.Play_win);
         }
      }
 }   
