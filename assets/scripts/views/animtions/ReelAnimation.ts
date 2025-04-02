@@ -1,10 +1,10 @@
 import { _decorator, Component, Node, tween, Tween, Vec3 } from 'cc';
-import { CellLineView } from '../CellLineView';
 import { ReelRuleData } from '../../models/ReelRuleData';
 import { GameModel } from '../../models/GameModel';
 import { CellData } from '../../models/CellData';
 import { CellView } from '../CellView';
 import { SymbolDefine } from '../../models/SymbolDefine';
+import { CellLineView } from '../CellLineView';
 const { ccclass, property } = _decorator;
 
 @ccclass('ReelAnimation')

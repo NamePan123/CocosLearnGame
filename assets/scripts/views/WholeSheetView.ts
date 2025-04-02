@@ -8,6 +8,7 @@ import { GameModel } from '../models/GameModel';
 import { CellData } from '../models/CellData';
 import { CellView } from './CellView';
 import { ReelRuleData } from '../models/ReelRuleData';
+import { ReelAnimation } from './animtions/ReelAnimation';
 const { ccclass, property } = _decorator;
 
 @ccclass('WholeSheetView')
@@ -23,6 +24,9 @@ export class WholeSheetView extends Component {
     @property([CellLineView]) 
     public  celllines:CellLineView[] = Array<CellLineView>(5); 
     
+    @property([ReelAnimation]) 
+    public  reelAnims:ReelAnimation[] = Array<ReelAnimation>(5); 
+    
     private CellAnimationPrefab:Prefab;
     //初始化UI
     public InitView(cellAnimPrefab:Prefab, model:GameModel):void
@@ -37,22 +41,27 @@ export class WholeSheetView extends Component {
         let data:CellData; 
         let view:CellView; 
                                     //5
-        for(let i:number = 0; i < this.celllines.length; i++){
-
-            let singleLine:CellLineView = this.celllines[i];     
+        for(let i:number = 0; i < this.celllines.length; i++){     
+            let singleLine:CellLineView = this.celllines[i];   
+            let reelAnim:ReelAnimation =  singleLine.getComponent(ReelAnimation);
             let ruleData:ReelRuleData = model.GetReelRuleDataByIndex(i);
-            singleLine.ReelAnim.Init(ruleData);
+            reelAnim.Init(ruleData);
             singleLine.CreateAnim(this.CellAnimationPrefab);
             singleLine.BingDataToUI(model);
+            this.reelAnims.push(reelAnim);
         }
     }
 
     //游戏更新
     public GameUpdate(gameTime){
 
-        this.celllines.forEach(element => {
+       /* this.celllines.forEach(element => {
             element.UpdateView(gameTime);
-        });
+        });*/
+
+        this.reelAnims.forEach(element => {
+            element.GameUpdate(gameTime);
+          });
     }
     
     //晃动动画
@@ -77,9 +86,13 @@ export class WholeSheetView extends Component {
     //播放掉落的动画
     public PlayDropAnim(){
 
-        this.celllines.forEach(element => {
+       /* this.celllines.forEach(element => {
           element.ReelAnim.StartDrop();
-        });
+        });*/
+
+        this.reelAnims.forEach(element => {
+            element.StartDrop();
+          });
     }
 
 }

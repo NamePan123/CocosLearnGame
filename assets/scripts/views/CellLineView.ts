@@ -1,17 +1,20 @@
 import { _decorator, Component, Node, Prefab, UITransform } from 'cc';
 import { CellView } from './CellView';
-import { ReelAnimation } from './animtions/ReelAnimation';
 import { SymbolDefine } from '../models/SymbolDefine';
 import { GameModel } from '../models/GameModel';
 import { CellData } from '../models/CellData';
+//import { ReelAnimation } from './animtions/ReelAnimation';
 const { ccclass, property } = _decorator;
 
 @ccclass('CellLineView')
 export class CellLineView extends Component {
 
-    @property(ReelAnimation) 
-    public  ReelAnim:ReelAnimation;   
-    
+    //@property(ReelAnimation) 
+    //public  ReelAnim:ReelAnimation;   
+
+    @property
+    public LineIndex:number = 0;
+
     public get Length():number
     {
         return this.celllines.length;
@@ -31,10 +34,10 @@ export class CellLineView extends Component {
         return this.celllines[index];
     }
     
-    public UpdateView(time:number):void{
+    /*public UpdateView(time:number):void{
 
         this.ReelAnim.GameUpdate(time);
-    }
+    }*/
 
     public Move(speed:number):void {
         this.celllines.forEach(element => {
@@ -100,7 +103,7 @@ export class CellLineView extends Component {
         this.ReSort();
         for(let i:number = 0; i < this.Length; i++){
             let view:CellView = this.GetCellViewByIndex(i);
-            let data:CellData = model.GetCellDataByIndex(i, this.ReelAnim.LineIndex);
+            let data:CellData = model.GetCellDataByIndex(i, this.LineIndex);
             view.SetData(data, i); 
             view.icon.node.active = true;
         }       
