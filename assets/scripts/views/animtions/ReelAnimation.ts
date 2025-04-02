@@ -85,8 +85,7 @@ export class ReelAnimation extends Component{
            
             this.PlayMove(gametime);
         }  
-        else{
-           
+        else{          
             //等待最后一轮转弯
             this.lineView.MoveFixed(this._reel.Speed);
             if(!this._reelEnd  && this.lineView.IsEnd){
@@ -95,8 +94,7 @@ export class ReelAnimation extends Component{
         }
         
     }
-
-
+    
     private PlayMove(gametime:number){
            //模拟向上
         if(gametime >= this._reel.Delay + this._reel.UPReelTime)

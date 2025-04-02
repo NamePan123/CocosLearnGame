@@ -129,11 +129,8 @@ export class GameController extends GameTime {
             //等待结束 执行消除动画
             if(gameTime > GameModel.Instance().MaxReelTime && !this._roundEnd){
                 
-                this.Stop();
-                
+                this.Stop();             
                 this.ResultCheck();
-               
-         
             }
         } 
     }
@@ -152,23 +149,19 @@ export class GameController extends GameTime {
             }
             if(this._checked[0].row == 3){
                 this.reelView.PlayWinLine(SymbolDefine.Line_3);
-            }
-          
+            }         
             //优先播放晃动，再播放掉落
             setTimeout(() => {
                 this.reelView.PlayWobbleAnim(true);
                 this.scheduleOnce(() => this.StartDrop(), 1);
           
-            }, 800);
-           
+            }, 800);          
         }
         else{
 
             this._roundEnd = true;
             this.StartBtn.node.active = true;
         }
-        
-
     }
 
 
@@ -181,7 +174,7 @@ export class GameController extends GameTime {
         setTimeout(() => {
             //再次检查
             this.ResultCheck();  
-    }, 1500);
+        }, 1500);
     } 
 
 }
