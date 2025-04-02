@@ -176,14 +176,11 @@ export class GameController extends GameTime {
     private StartDrop():void{
         this.reelView.PlayWobbleAnim(false);
         this.reelView.PlayDropAnim();
+        GameModel.Instance().ResetReel();
+        GameModel.Instance().MoveMatrix(this._checked);
         setTimeout(() => {
-            //重置数据
-            GameModel.Instance().ResetReel();
-            GameModel.Instance().MoveMatrix(this._checked);
             //再次检查
-            this.ResultCheck();
-    
-
+            this.ResultCheck();  
     }, 1500);
     } 
 

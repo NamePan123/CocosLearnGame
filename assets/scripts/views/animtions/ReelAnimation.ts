@@ -51,11 +51,12 @@ export class ReelAnimation extends Component{
             //整理位置，重新绑定UI和数据
             this.lineView.BingDataToUI(GameModel.Instance());         
         }
-
-        //开始模拟往下掉的动画
+      
         celllines.forEach(element => {
-            this.dropWithBounce(element.node, 0, element.node.position.y - 146);    
+            let sourceY = element.GetPositionByIndex(element.CellIndex);
+            this.dropWithBounce(element.node, 0, sourceY);      
         });
+
        
     }
 

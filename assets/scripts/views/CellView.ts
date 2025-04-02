@@ -21,6 +21,8 @@ export class CellView extends Component {
         return this._isEnd;
     }
 
+    public CellIndex:number = 0;
+
     //是否转动结束
     private _isEnd:boolean = false;
     private _isMoveing:boolean = false;
@@ -32,27 +34,32 @@ export class CellView extends Component {
     private _topPosition:number = 584;
 
     private _defaultPosition:number;
+    
     public SetData(value:CellData, index:number)
     {
         //数据双向绑定UI
         this._data = value;
         this._data.BingdCellView = this;
-        if(index == 0){
-            this._defaultPosition =  584.402;
-        }
-
-        if(index == 1){
-            this._defaultPosition =  437.736;
-        }
-
-        if(index == 2){
-            this._defaultPosition =  291.58;
-        }
-
-        if(index == 3){
-            this._defaultPosition =  146;
-        }
+        this._defaultPosition = this.GetPositionByIndex(index);  
         this.lable.string = value.GridRow.toString();
+        this.CellIndex = index;
+    }
+    
+    public GetPositionByIndex(index:number):number{
+
+        if(index == 0){
+            return 584.402;
+        }
+        else if(index == 1){
+            return  437.736;
+        }
+        else if(index == 2){
+            return  291.58;
+        }
+        else if(index == 3){
+            return  146;
+        }
+        return 0;
     }
     
 
