@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, tween, Tween, Vec3 } from 'cc';
+import { _decorator, CCInteger, Component, Node, tween, Tween, Vec3 } from 'cc';
 import { ReelRuleData } from '../../models/ReelRuleData';
 import { GameModel } from '../../models/GameModel';
 import { CellData } from '../../models/CellData';
@@ -13,7 +13,7 @@ export class ReelAnimation extends Component{
     @property(CellLineView) 
     public lineView:CellLineView;
 
-    @property({ type: Number })
+    @property(CCInteger) 
     public LineIndex:number;
 
     private _reel:ReelRuleData;

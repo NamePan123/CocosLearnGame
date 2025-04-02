@@ -1,18 +1,14 @@
-import { _decorator, Component, Node, Prefab, UITransform } from 'cc';
+import { _decorator, CCInteger, Component, Node, Prefab, UITransform } from 'cc';
 import { CellView } from './CellView';
 import { SymbolDefine } from '../models/SymbolDefine';
 import { GameModel } from '../models/GameModel';
 import { CellData } from '../models/CellData';
-//import { ReelAnimation } from './animtions/ReelAnimation';
 const { ccclass, property } = _decorator;
 
 @ccclass('CellLineView')
 export class CellLineView extends Component {
 
-    //@property(ReelAnimation) 
-    //public  ReelAnim:ReelAnimation;   
-
-    @property
+     @property(CCInteger) 
     public LineIndex:number = 0;
 
     public get Length():number
