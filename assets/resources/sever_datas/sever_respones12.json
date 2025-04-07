@@ -1,0 +1,100 @@
+[
+    {
+        "rotary": [
+            [
+                5,
+                3,
+                6,
+                4,
+                3
+            ],
+            [
+                3,
+                4,
+                3,
+                8,
+                5
+            ],
+            [
+                0,
+                5,
+                2,
+                1,
+                4
+            ],
+            [
+                2,
+                1,
+                0,
+                1,
+                2
+            ]
+        ],
+        "type": 0,
+        "prizeIndex": [
+            1,
+            5,
+            7
+        ],
+        "gold": 0.1,
+        "drop": false,
+        "doubleMul": 1,
+        "freeNum": 0,
+        "openFreeNum": 0,
+        "historyWinScore": 0,
+        "prizeType": 0,
+        "prizeIcon": [
+            3
+        ],
+        "prizeDetail": [
+            {
+                "icon": 3,
+                "hitLine": 14,
+                "line": 3,
+                "gold": 0.1,
+                "mul": 10,
+                "prizeIndex": [
+                    1,
+                    5,
+                    7
+                ]
+            }
+        ]
+    },
+    {
+        "rotary": [
+            [
+                5,
+                5,
+                1,
+                4,
+                3
+            ],
+            [
+                5,
+                4,
+                6,
+                8,
+                5
+            ],
+            [
+                0,
+                5,
+                2,
+                1,
+                4
+            ]
+        ],
+        "type": 0,
+        "prizeIndex": [],
+        "gold": 0,
+        "drop": true,
+        "doubleMul": 2,
+        "freeNum": 0,
+        "openFreeNum": 0,
+        "historyWinScore": 0.1,
+        "prizeType": 0,
+        "prizeIcon": [],
+        "prizeDetail": []
+    }
+]

@@ -1,0 +1,45 @@
+[
+    {
+        "rotary": [
+            [
+                6,
+                6,
+                0,
+                5,
+                5
+            ],
+            [
+                6,
+                4,
+                7,
+                2,
+                2
+            ],
+            [
+                2,
+                5,
+                4,
+                0,
+                5
+            ],
+            [
+                2,
+                1,
+                0,
+                1,
+                2
+            ]
+        ],
+        "type": 0,
+        "prizeIndex": [],
+        "gold": 0,
+        "drop": false,
+        "doubleMul": 1,
+        "freeNum": 0,
+        "openFreeNum": 0,
+        "historyWinScore": 0,
+        "prizeType": 0,
+        "prizeIcon": [],
+        "prizeDetail": []
+    }
+]

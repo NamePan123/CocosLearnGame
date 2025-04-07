@@ -4,22 +4,19 @@ import { SymbolDefine } from './SymbolDefine';
 import { ReelRuleData } from './ReelRuleData';
 import { ReelState } from './ReelState';
 import { TestData } from '../controls/TestData';
+import { RotaryData } from './protocolData/RotaryData';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameModel')
 export class GameModel  {
 
-
-
     //单例
     private static _instance: GameModel | null = null;
-
-
     //动画控制数据
     private _reelRuleDatas:ReelRuleData[] = Array<ReelRuleData>();
 
     private _downGrids: CellData[][] = [];//下面3排
-
+    private _curIndex:number;
     private constructor() {
        this.InitGrids();
        this.ConfigReelAnimation();
@@ -51,33 +48,68 @@ export class GameModel  {
         return this._downGrids[row][col];
     }
     
-    private _curData:number[][];
-    public SetData(data:number[][], refulshView:boolean = true)
+    private _datas:RotaryData[];
+    public SetData(data:RotaryData[], refulshView:boolean = true)
     {
-         this._curData = data;
-         for(let i:number = 0; i < data.length; i++){
+         this._datas = data;
+         this._curIndex = 0;
+         this.RenderByIndexNext(refulshView);     
+    }
+
+
+    private RenderByIndexNext(refulshView:boolean = true):void{
+
+        let rotaryData:RotaryData = this._datas[this._curIndex];
+        let data:number[][] = rotaryData.rotary;
+        for(let i:number = 0; i < 3; i++){
             let cel = data[i];
             for(let j:number = 0; j < cel.length; j++){
-                let cell:CellData = this.GetCellDataByIndex(i, j);
+                let cell:CellData = this.GetCellDataByIndex(i + 1, j);
                 let index = data[i][j];
                 cell.SetIndex(index, refulshView);
             }
-         }
+        }  
+        
+    }
+
+
+    public RenderNext():void{
+        this._curIndex ++;
+        this.RenderByIndexNext();
+    }   
+    
+
+
+
+    public CheckDatas():RotaryData{
+        //判断有没有中奖
+        let rotaryData:RotaryData = this._datas[this._curIndex];
+        //大于0的 就是中奖了
+        if(rotaryData.prizeIndex.length > 0){
+
+            const result = this.Get2DIndices(rotaryData.rotary, rotaryData.prizeIndex);
+            result.forEach(element => {
+               let cellData:CellData = this.GetCellDataByIndex(element[0] + 1,element[1]);
+               cellData.SetWin(true, true);
+            });
             
+            return rotaryData;
+        }
+
+        return null;
     }
 
 
-    public CheckDatas():{ row: number; col: number }[]{
-        let value:boolean = false;
-        let matchedCells = this.GetWinningIndices(this._curData);
-        matchedCells.forEach(element => {
-         
-           var Cell:CellData = this.GetCellDataByIndex(element.row, element.col);
-           Cell.SetWin(true, true);
-           value = true;
+    private Get2DIndices<T>(matrix: T[][], indices: number[]): [number, number][] {
+       
+        const numCols = matrix[0].length;
+        
+        return indices.map(index => {
+          const row = Math.floor(index / numCols);
+          const col = index % numCols;
+          return [row, col];
         });
-        return matchedCells;
-    }
+      }
 
     //-------------------------------动画控制-----------------------------------------
 
@@ -125,84 +157,6 @@ export class GameModel  {
     }
    
 
-
-    public MoveMatrix(deleteIndices: { row: number, col: number }[]): void {
-
-       
-        const copyData = this._curData.map(row => row.slice());
-        console.log(deleteIndices);
-
-        const rowCount = copyData.length;
-        const colCount = copyData[0].length;
-    
-    
-        for (const { row, col } of deleteIndices) {
-            if (row >= 0 && row < rowCount && col >= 0 && col < colCount) {
-                copyData[row][col] = -1;
-            }
-        }
-    
-        for (let col = 0; col < colCount; col++) {
-         
-            const remain: number[] = [];
-            for (let row = 0; row < rowCount; row++) {
-                if (copyData[row][col] !== -1) {
-                    remain.push(copyData[row][col]);
-                }
-            }
-
-            const missingCount = rowCount - remain.length;
-    
-            const randomNumber = Math.floor(Math.random() * 9)
-            const fillValues: number[] = Array.from({ length: missingCount }, () => randomNumber);
-    
-            const newCol = fillValues.concat(remain);
-    
-            for (let row = 0; row < rowCount; row++) {
-                copyData[row][col] = newCol[row];
-            }
-        }
-
-        this.SetData(copyData, true);
-        
-    }
-
-
-
-
-    //判断中奖规则的结果
-    public GetWinningIndices(grid: number[][]): { row: number; col: number }[] {
-        const winningIndices: { row: number; col: number }[] = [];
-      
-        // 遍历每一行
-        grid.forEach((row, rowIndex) => {
-
-          if(rowIndex == 0){ 
-             return;
-          }
-
-          const firstSymbol = row[0];
-          let count = 1;
-      
-          // 从第二个符号开始判断连续的相同符号数量
-          for (let colIndex = 1; colIndex < row.length; colIndex++) {
-            if (row[colIndex] === firstSymbol) {
-              count++;
-            } else {
-              break;
-            }
-          }
-      
-          // 如果连续相同的符号数量达到3个或以上，则记录这些索引
-          if (count >= 3) {
-            for (let i = 0; i < count; i++) {
-              winningIndices.push({ row: rowIndex, col: i });
-            }
-          }
-        });
-        
-        return winningIndices;
-      }
 
 
 }

@@ -30,10 +30,6 @@ export class CellLineView extends Component {
         return this.celllines[index];
     }
     
-    /*public UpdateView(time:number):void{
-
-        this.ReelAnim.GameUpdate(time);
-    }*/
 
     public Move(speed:number):void {
         this.celllines.forEach(element => {

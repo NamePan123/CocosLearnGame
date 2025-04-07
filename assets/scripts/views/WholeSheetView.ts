@@ -14,19 +14,20 @@ const { ccclass, property } = _decorator;
 @ccclass('WholeSheetView')
 export class WholeSheetView extends Component {
 
-    
-    @property(sp.Skeleton) 
-    public LineAnim:sp.Skeleton;
 
+    
     @property(Label) 
     public TimeLabel:Label;
 
     @property([CellLineView]) 
-    public  celllines:CellLineView[] = Array<CellLineView>(5); 
+    public celllines:CellLineView[] = Array<CellLineView>(5); 
     
     @property([ReelAnimation]) 
-    public  reelAnims:ReelAnimation[] = Array<ReelAnimation>(5); 
+    public reelAnims:ReelAnimation[] = Array<ReelAnimation>(5); 
     
+    @property(sp.Skeleton) 
+    public LineAnims:sp.Skeleton[] = Array<sp.Skeleton>(5);
+
     private CellAnimationPrefab:Prefab;
     //初始化UI
     public InitView(cellAnimPrefab:Prefab, model:GameModel):void
@@ -55,10 +56,6 @@ export class WholeSheetView extends Component {
     //游戏更新
     public GameUpdate(gameTime){
 
-       /* this.celllines.forEach(element => {
-            element.UpdateView(gameTime);
-        });*/
-
         this.reelAnims.forEach(element => {
             element.GameUpdate(gameTime);
           });
@@ -75,20 +72,19 @@ export class WholeSheetView extends Component {
     }
 
     //WIN的LINE 动画
-    public PlayWinLine(name:string):void{
-        this.LineAnim.node.active = true;
-        this.LineAnim.setAnimation(0, name, false);
+    public PlayWinLine(name:string,index:number):void{
+        this.LineAnims[index].node.active = true;
+        this.LineAnims[index].setAnimation(0, name, false);
         setTimeout(() => {
-            this.LineAnim.node.active = false;
+
+            this.LineAnims.forEach(element => {
+                element.node.active = false;
+            });
         }, 500);
     }
 
     //播放掉落的动画
     public PlayDropAnim(){
-
-       /* this.celllines.forEach(element => {
-          element.ReelAnim.StartDrop();
-        });*/
 
         this.reelAnims.forEach(element => {
             element.StartDrop();
