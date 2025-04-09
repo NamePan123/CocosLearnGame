@@ -5,11 +5,18 @@ import { ReelRuleData } from './ReelRuleData';
 import { ReelState } from './ReelState';
 
 import { RotaryData } from './protocolData/RotaryData';
+import { GameController } from '../controls/GameController';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameModel')
 export class GameModel  {
 
+    public betList: number[] = [0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2, 2.4, 3, 3.6, 4.2, 4.8, 5.4, 6, 12,
+        18, 24, 30, 36, 42, 48, 50, 54, 60, 90, 100, 120, 150, 180, 200, 210, 240, 250, 270, 300, 350, 400, 450, 500]
+
+    public betScore:number;
+    public betMul:number;
+    public RoundCount:number = 0;
     //单例
     private static _instance: GameModel | null = null;
     //动画控制数据
@@ -17,16 +24,21 @@ export class GameModel  {
 
     private _downGrids: CellData[][] = [];//下面3排
     private _curIndex:number;
+    private _contorler:GameController;
     private constructor() {
        this.InitGrids();
        this.ConfigReelAnimation();
     }
 
-    public static Instance(): GameModel {
+    public static get Instance(): GameModel {
         if (!this._instance) {
             this._instance = new GameModel();
         }
         return this._instance;
+    }
+
+    public InitModel(contorler:GameController){
+        this._contorler = contorler;
     }
     
     private InitGrids()
@@ -48,8 +60,8 @@ export class GameModel  {
         return this._downGrids[row][col];
     }
     
-    private _datas:RotaryData[];
-    public SetData(data:RotaryData[], refulshView:boolean = true)
+    private _datas:msg.FruitData[];
+    public SetData(data:msg.FruitData[], refulshView:boolean = true)
     {
          this._datas = data;
          this._curIndex = 0;
@@ -59,7 +71,7 @@ export class GameModel  {
 
     private RenderByIndexNext(refulshView:boolean = true):void{
 
-        let rotaryData:RotaryData = this._datas[this._curIndex];
+        let rotaryData:msg.FruitData = this._datas[this._curIndex];
         let data:number[][] = rotaryData.rotary;
         for(let i:number = 0; i < 3; i++){
             let cel = data[i];
@@ -69,7 +81,7 @@ export class GameModel  {
                 cell.SetIndex(index, refulshView);
             }
         }  
-        
+        this.RoundCount ++;
     }
 
 
@@ -81,9 +93,9 @@ export class GameModel  {
 
 
 
-    public CheckDatas():RotaryData{
+    public CheckDatas():msg.FruitData{
         //判断有没有中奖
-        let rotaryData:RotaryData = this._datas[this._curIndex];
+        let rotaryData:msg.FruitData = this._datas[this._curIndex];
         //大于0的 就是中奖了
         if(rotaryData.prizeIndex.length > 0){
 
@@ -109,7 +121,33 @@ export class GameModel  {
           const col = index % numCols;
           return [row, col];
         });
-      }
+    }
+
+    public ParseInitDataFromSever(data: msg.DataCMD_1_100):void{
+
+        this.RoundCount = 0;
+        this.betScore = data.backUi && data.backUi.betScore || this.betList[10]
+        this.betMul = data.backUi && data.backUi.betMul || 3
+        this.SetData(data.backUi.ui.fruitData, true);
+
+    }
+
+    public ParseRoundFromData(data: msg.DataCMD_3_2):void{
+
+        this.RoundCount = 0;
+        this.SetData(data.fruitData, false);
+        this.ResetReel();
+        if( this._contorler != null &&  this._contorler != undefined){
+
+            this._contorler.StartRound();
+        }
+        else{
+            
+            console.error("this._contorler 是空的：" + this._contorler);
+        }
+     
+    }
+
 
     //-------------------------------动画控制-----------------------------------------
 

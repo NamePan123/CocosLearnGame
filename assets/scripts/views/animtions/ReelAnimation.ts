@@ -32,7 +32,7 @@ export class ReelAnimation extends Component{
         //计算移动的数量和移动到顶部
         for(let i:number = 0; i < this.lineView.Length; i++){
             //判断是否获奖
-             let c:CellData = GameModel.Instance().GetCellDataByIndex(i, this.LineIndex);
+             let c:CellData = GameModel.Instance.GetCellDataByIndex(i, this.LineIndex);
              if(c.IsWin){
 
                 this._DropCount ++;    
@@ -49,7 +49,7 @@ export class ReelAnimation extends Component{
             //把隐藏的也加入到掉落队列中
             celllines.unshift(this.lineView.GetCellViewByIndex(0));
             //整理位置，重新绑定UI和数据
-            this.lineView.BingDataToUI(GameModel.Instance());         
+            this.lineView.BingDataToUI(GameModel.Instance);         
         }
       
         celllines.forEach(element => {

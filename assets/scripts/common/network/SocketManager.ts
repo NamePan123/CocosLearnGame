@@ -52,10 +52,6 @@ export class SocketManager extends Component {
         if (data) {
           
             console.error("消息发出" + data.mainCMD + "," + data.subCMD + ":" + JSON.stringify(data));
-
-            if( JSON.stringify(data).indexOf("playTimes") != -1){
-                console.log("--------------");
-            }
         }
         if (this._socket == null || !this._connectStatus) {
             setTimeout(this.SendGameMessge.bind(this), 1000);
