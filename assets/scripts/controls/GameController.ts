@@ -1,10 +1,11 @@
 import { _decorator, Button, Component, game, JsonAsset, Label, math, Node, Prefab, resources, Tween } from 'cc';
 import { WholeSheetView } from '../views/WholeSheetView';
 import { GameModel } from '../models/GameModel';
-import { TestData } from './TestData';
 import { GameTime } from '../core/GameTime';
 import { SymbolDefine } from '../models/SymbolDefine';
 import { RotaryData } from '../models/protocolData/RotaryData';
+import { SocketManager } from '../common/network/SocketManager';
+import { PlayerModel } from '../models/PlayerModel';
 
 const { ccclass, property } = _decorator;
 //处理游戏逻辑的
@@ -30,7 +31,9 @@ export class GameController extends GameTime {
 
     start() {
         game.frameRate = 120;
-        this.InitGame();
+        setTimeout(() => {
+            this.InitGame();
+        }, 1000);
         
     }
 
@@ -41,6 +44,10 @@ export class GameController extends GameTime {
 
     private InitGame()
     {
+
+        let ipaddress:string = "http://43.198.117.211:11122/Client";
+        SocketManager.Instance.Connect(ipaddress);
+        PlayerModel.Instance.InitModel();
         resources.load("prefabs/CellAnimation", Prefab, (err, prefab) => {
             if (err) {
                 console.log("err:" + err);

@@ -3,7 +3,7 @@ import { CellData } from './CellData';
 import { SymbolDefine } from './SymbolDefine';
 import { ReelRuleData } from './ReelRuleData';
 import { ReelState } from './ReelState';
-import { TestData } from '../controls/TestData';
+
 import { RotaryData } from './protocolData/RotaryData';
 const { ccclass, property } = _decorator;
 
