@@ -3,6 +3,7 @@ import { SocketManager } from './SocketManager';
 import { NetEvent } from '../Define';
 import { PlayerModel } from '../../models/PlayerModel';
 import { GameModel } from '../../models/GameModel';
+import { TipsManager } from '../../controls/TipsManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameMessageHandler')
@@ -34,21 +35,22 @@ export class GameMessageHandler{
     //
     public SendStartRoundToSever(isFree:boolean):void{
 
-        let betScoreValue = GameModel.Instance.betScore;
-        let betMulValue = GameModel.Instance.betMul;
+        let betScoreValue = GameModel.Instance.betScore = 10;
+        let betMulValue = GameModel.Instance.betMul = 2;
 
         if(isFree){
             
-            betScoreValue = 0;
             betMulValue = 0;
+            betScoreValue = 0;
+           
         }
 
         let startData = {
             mainCMD: 3,
             subCMD: 2,
             data:  {
-                betScore: betScoreValue,
                 betMul: betMulValue,
+                betScore: betScoreValue             
             }
         };
        
@@ -78,7 +80,14 @@ export class GameMessageHandler{
                 GameMessageHandler.Instance.SendEnterRoomToSever();
                 break;
             case NetEvent.UserRoomIn:
-
+                console.error("进入房间：" + JSON.stringify(data));
+            break;
+            case NetEvent.KickOut:
+                TipsManager.Instance.ShowTips(TipsManager.COMMON_TIPS, "登场通知", data.msg,  () => {
+                   window.close();
+                },() => {
+                    window.close();
+                 });
             break;
         }
 

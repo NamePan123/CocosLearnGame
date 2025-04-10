@@ -12,10 +12,12 @@ const { ccclass, property } = _decorator;
 export class GameModel  {
 
     public betList: number[] = [0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2, 2.4, 3, 3.6, 4.2, 4.8, 5.4, 6, 12,
-        18, 24, 30, 36, 42, 48, 50, 54, 60, 90, 100, 120, 150, 180, 200, 210, 240, 250, 270, 300, 350, 400, 450, 500]
+        18, 24, 30, 36, 42, 48, 50, 54, 60, 90, 100, 120, 150, 180, 200, 210, 240, 250, 270, 300, 350, 400, 450, 500];
 
-    public betScore:number;
     public betMul:number;
+    public betScore:number;
+    public money:number;
+    public prizePerRound:number;
     public RoundCount:number = 0;
     //单例
     private static _instance: GameModel | null = null;
@@ -127,14 +129,19 @@ export class GameModel  {
 
         this.RoundCount = 0;
         this.betScore = data.backUi && data.backUi.betScore || this.betList[10]
-        this.betMul = data.backUi && data.backUi.betMul || 3
+        this.betMul = data.backUi && data.backUi.betMul || 3;
+        this.money = data.backUi.ui.score;
+        this.prizePerRound = data.backUi.ui.prizePerRound;
         this.SetData(data.backUi.ui.fruitData, true);
+        this._contorler.GameInitData();
 
     }
 
     public ParseRoundFromData(data: msg.DataCMD_3_2):void{
 
         this.RoundCount = 0;
+        this.money = data.score;
+        this.prizePerRound = data.prizePerRound;
         this.SetData(data.fruitData, false);
         this.ResetReel();
         if( this._contorler != null &&  this._contorler != undefined){
@@ -145,7 +152,7 @@ export class GameModel  {
             
             console.error("this._contorler 是空的：" + this._contorler);
         }
-     
+        this._contorler.GameUpdateData();
     }
 
 

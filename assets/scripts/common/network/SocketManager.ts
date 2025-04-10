@@ -5,6 +5,7 @@ import io from "./libs/socket.io.js";
 import Encrypt from './Encrypt';
 import Util from '../Util';
 import { GameMessageHandler } from './GameMessageHandler';
+import { TipsManager } from '../../controls/TipsManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('SocketManager')
@@ -21,6 +22,7 @@ export class SocketManager extends Component {
     private _transfer: msg.S_Game_Messge[] = [];
     private _connectStatus:boolean = false;
     private _connectId:string = "0";
+    private _reconnectCount:number = 0;
     private _socket: SocketIOClient.Socket;
     private _url:string = null;
 
@@ -48,15 +50,17 @@ export class SocketManager extends Component {
     }
 
     public SendGameMessge(data?: msg.S_Game_Messge) {
+
+        if (this._socket == null || !this._connectStatus) {
+            // setTimeout(this.SendGameMessge.bind(this), 1000);
+             return;
+         }
         data && this._transfer.push(data);
         if (data) {
           
             console.error("消息发出" + data.mainCMD + "," + data.subCMD + ":" + JSON.stringify(data));
         }
-        if (this._socket == null || !this._connectStatus) {
-            setTimeout(this.SendGameMessge.bind(this), 1000);
-            return;
-        }
+       
         for (var i = 0; i < this._transfer.length; i++) {
             data = Encrypt.packetData(this._transfer[i], this._socket);
             this._socket.send(data);
@@ -80,11 +84,42 @@ export class SocketManager extends Component {
 
  
         this._socket.on(SocketEvent.SOCKET_CONNECT, this.onSocketConnect.bind(this));
-        this._socket.on(SocketEvent.SOCKET_MESSAGE, this.ReceiveSeverMessage.bind(this));      
+        this._socket.on(SocketEvent.SOCKET_MESSAGE, this.ReceiveSeverMessage.bind(this));       
+        this._socket.on(SocketEvent.SOCKET_DISCONNECT, this.onSocketDisconnect.bind(this));
+
     }   
+
+    private onSocketDisconnect(){
+
+        this._socket.off(SocketEvent.SOCKET_CONNECT, this.onSocketConnect.bind(this));
+        this._socket.off(SocketEvent.SOCKET_MESSAGE, this.ReceiveSeverMessage.bind(this));       
+        this._socket.off(SocketEvent.SOCKET_DISCONNECT, this.onSocketDisconnect.bind(this));
+        this._socket = null;
+        this._connectId = "0";
+        this._reconnectCount = 0;
+        this._connectStatus = false;
+        this.schedule(this.Reconnect.bind(this), 10);
+        console.error("服务器断开链接....");
+    }
+
+    private Reconnect() {
+
+        if(!this._connectStatus)
+        {   
+            this._reconnectCount ++;
+            let tip:string = "网络繁忙,正在重连...(第{0}次)";
+            tip = tip.replace("{0}", this._reconnectCount.toString());
+            TipsManager.Instance.ShowSimpleTips(TipsManager.RECONNECT_TIPS, "");
+            this.Connect(this._url);
+            console.error("正在重连....");
+        }
+    }
 
     private onSocketConnect(){
         
+        this.unschedule(this.Reconnect);
+        TipsManager.Instance.HideAllTips();
+
         this._connectStatus = true;
         if(this._connectId === "0"){
 
@@ -95,9 +130,10 @@ export class SocketManager extends Component {
             GameMessageHandler.Instance.SendVerifyUserToSever();
         }
         else{
+            
             this.HandShake(this._connectId);
         }
-        console.log("onSocketConnect");
+        console.log("服务器链接上了哦：this._connectId" + this._connectId);
     }
 
 

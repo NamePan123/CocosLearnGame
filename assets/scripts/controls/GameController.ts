@@ -1,4 +1,4 @@
-import { _decorator, Button, Component, game, JsonAsset, Label, math, Node, Prefab, resources, Tween } from 'cc';
+import { _decorator, Button, Component, game, instantiate, JsonAsset, Label, math, Node, Prefab, resources, Tween } from 'cc';
 import { WholeSheetView } from '../views/WholeSheetView';
 import { GameModel } from '../models/GameModel';
 import { GameTime } from '../core/GameTime';
@@ -7,69 +7,84 @@ import { RotaryData } from '../models/protocolData/RotaryData';
 import { SocketManager } from '../common/network/SocketManager';
 import { PlayerModel } from '../models/PlayerModel';
 import { GameMessageHandler } from '../common/network/GameMessageHandler';
+import { GameLoadingView } from '../views/GameLoadingView';
+import { GameResourceManager } from './GameResourceManager';
+import { MainPanelView } from '../views/MainPanelView';
+import { TipsManager } from './TipsManager';
 
 const { ccclass, property } = _decorator;
 //处理游戏逻辑的
 @ccclass('GameController')
 export class GameController extends GameTime {
 
-     
-    @property(WholeSheetView) 
-    public reelView:WholeSheetView;
 
-    @property(Button) 
-    public StartBtn:Button;
+    @property(Node) 
+    public GameParent:Node;   
 
-    @property(Button) 
-    public StopBtn:Button;
+    @property(GameLoadingView) 
+    public loadPanel:GameLoadingView; 
 
-
-    @property(Button) 
-    public ReplayBtn:Button;
-
-    @property(Label) 
-    public timeLabel:Label;
-
+   
+    private _reelView:WholeSheetView;
+    private _mainPanelView:MainPanelView;
     start() {
         game.frameRate = 60;
-        this.InitGame();
+        setTimeout(() => {
+            this.loadPanel.InitShow();
+            this.LoadUI();
+        }, 10);
+      
     }
 
     update(deltaTime: number) {
         super.update(deltaTime);
     }
 
+    private onLoadCompeleteEvent(data: any) {
 
-    private InitGame()
-    {
+       this.InitGame(data);       
+    }
 
-        resources.load("prefabs/CellAnimation", Prefab, (err, prefab) => {
-            if (err) {
-                console.log("err:" + err);
-                return;
-            }
-       
-            this.StartBtn.node.on(Node.EventType.TOUCH_END, this.onStartBtnClick, this);
-            this.StopBtn.node.on(Node.EventType.TOUCH_END, this.onStopClick, this);
-            this.ReplayBtn.node.on(Node.EventType.TOUCH_END, this.onReplayBtnClick, this);
-            
-            let ipaddress:string = "http://43.198.117.211:11122/Client";
-            PlayerModel.Instance.InitModel();
-            GameModel.Instance.InitModel(this);
+    private LoadUI(){
 
-            SocketManager.Instance.Connect(ipaddress);
+        GameResourceManager.Instance.AddLoad("prefabs/CellAnimation");
+        GameResourceManager.Instance.AddLoad("prefabs/CellLine");
+        GameResourceManager.Instance.AddLoad("prefabs/GameModule");
+        GameResourceManager.Instance.node.on(GameResourceManager.RESPIRCE_LOAD_COMPELETE, this.onLoadCompeleteEvent, this);
+        GameResourceManager.Instance.StartLoad();
+    }
+    private InitGame(data:any)
+    {   
+        
+        let ipaddress:string = "http://43.198.117.211:11122/Client"
+        PlayerModel.Instance.InitModel();
+        GameModel.Instance.InitModel(this);
+        SocketManager.Instance.Connect(ipaddress);
 
-            this.reelView.InitView(prefab, GameModel.Instance);
-            this.StartBtn.node.on(Node.EventType.TOUCH_END, this.onStartBtnClick, this);
-            this.StopBtn.node.on(Node.EventType.TOUCH_END, this.onStopClick, this);
-            this.ReplayBtn.node.on(Node.EventType.TOUCH_END, this.onReplayBtnClick, this);   
-        });
+        let mainView:Node = instantiate(data[2]);
+        mainView.setParent(this.GameParent);
+        mainView.setPosition(0,0);
+
+        this._reelView = mainView.getComponent(WholeSheetView);
+        this._reelView.InitView(data[0], GameModel.Instance);
+        this._reelView.SetVisible(false);
+
+        this._mainPanelView = mainView.getComponent(MainPanelView);
+
+        this._reelView.StartBtn.node.on(Node.EventType.TOUCH_END, this.onStartBtnClick, this);    
+        this.loadPanel.StartBtn.node.on(Node.EventType.TOUCH_END, this.onShowMainUIBtnClick, this);     
     }
 
 
     onStartBtnClick():void{
 
-       GameMessageHandler.Instance.SendStartRoundToSever(false);
+        GameMessageHandler.Instance.SendStartRoundToSever(false);
+    }
+
+    onShowMainUIBtnClick():void{
+      
+        this._reelView.SetVisible(true);
+        this.loadPanel.node.active = false;
     }
 
     onStopClick():void{
@@ -84,10 +99,8 @@ export class GameController extends GameTime {
 
     public StartRound():void{
         this.Reset();
-        this.StartTime(0);
-        this.StartBtn.node.active = false;
+        this.StartTime(0);      
         this._roundEnd = false;
- 
     }
 
 
@@ -95,9 +108,8 @@ export class GameController extends GameTime {
     private _checkAgain:boolean = false;
     public override GameUpdate(gameTime: number): void {
         
-        this.timeLabel.string = Math.round(gameTime).toString();
         if(this.ISRunning && this.isPaused == false){
-            this.reelView.GameUpdate(gameTime);
+            this._reelView.GameUpdate(gameTime);
             //等待结束 执行消除动画
             if(gameTime > GameModel.Instance.MaxReelTime && !this._roundEnd){
                 
@@ -119,13 +131,13 @@ export class GameController extends GameTime {
             this._roundEnd = false;
             let index = 0;
             rd.prizeDetail.forEach(element => {
-                this.reelView.PlayWinLine("line_" + element.hitLine, index);
+                this._reelView.PlayWinLine("line_" + element.hitLine, index);
             });
            
             //优先播放晃动，再播放掉落
             setTimeout(() => {
            
-                this.reelView.PlayWobbleAnim(true);
+                this._reelView.PlayWobbleAnim(true);
                 this.scheduleOnce(() => this.StartDrop(), 1);
           
             }, 800);          
@@ -133,8 +145,7 @@ export class GameController extends GameTime {
         else{
 
             this._roundEnd = true;
-            this.StartBtn.node.active = true;
-           
+          
         }
     }
 
@@ -142,8 +153,8 @@ export class GameController extends GameTime {
     //开始掉落动画，计算每一组的掉落
     private StartDrop():void{
 
-        this.reelView.PlayWobbleAnim(false);
-        this.reelView.PlayDropAnim();
+        this._reelView.PlayWobbleAnim(false);
+        this._reelView.PlayDropAnim();
         GameModel.Instance.RenderNext();
         GameModel.Instance.ResetReel();
 
@@ -153,48 +164,23 @@ export class GameController extends GameTime {
         }, 1500);
     } 
 
+
+    public GameInitData(){
+        
+        this.loadPanel.ShowStart();
+        this._mainPanelView.SetMoney(GameModel.Instance.money);
+        this._mainPanelView.SetBet(GameModel.Instance.betScore);
+        this._mainPanelView.SetRank(GameModel.Instance.prizePerRound);
+
+    }   
+
+    public GameUpdateData(){
+
+        this._mainPanelView.SetMoney(GameModel.Instance.money);
+        this._mainPanelView.SetRank(GameModel.Instance.prizePerRound);
+    }
+
+
+
+
 }
-
-
-/*private responesIndex:number = 2;
-    private isFrist:boolean = true;
-    private loadJsonData():void{
-            resources.load("sever_datas/sever_respones" + this.responesIndex, JsonAsset, (err, jsonAsset) => {
-                if (err) {
-                    console.error("加载 JSON 失败", err);
-                    return;
-                }
-
-                this.responesIndex ++;
-                if( this.responesIndex >= 14){
-                    this.responesIndex = 1;
-                }
-                this.StartBtn.node.active = false;
-                // 解析 JSON 数据
-                let jsonData: RotaryData[] = jsonAsset.json as RotaryData[];
-                console.log("加载的 JSON 数据:", jsonData);
-
-                GameModel.Instance().SetData(jsonData, false);
-                GameModel.Instance().ResetReel();
-                if(this.isFrist || this._roundEnd) {
-                    //模拟服务器发送1秒时间，收到后才可以点击下次开始
-                    setTimeout(() => {
-                        this.Reset();
-                        this.StartTime(0);
-                        this.StartBtn.node.active = false;
-                        this._roundEnd = false;
-                        this.isFrist = false;
-            
-                    }, 1000);
-                  
-                }
-                else{
-                    console.log("时间还未到");
-                }   
-
-
-            });
-        }
-
-
-    private TestIndex:number = 0;*/

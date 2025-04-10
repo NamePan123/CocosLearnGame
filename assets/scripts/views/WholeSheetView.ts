@@ -16,17 +16,21 @@ export class WholeSheetView extends Component {
 
 
     
-    @property(Label) 
+    //@property(Label) 
     public TimeLabel:Label;
+
+
+    @property(Button) 
+    public StartBtn:Button; 
 
     @property([CellLineView]) 
     public celllines:CellLineView[] = Array<CellLineView>(5); 
-    
-    @property([ReelAnimation]) 
-    public reelAnims:ReelAnimation[] = Array<ReelAnimation>(5); 
-    
+   
     @property(sp.Skeleton) 
     public LineAnims:sp.Skeleton[] = Array<sp.Skeleton>(5);
+
+      
+    public reelAnims:ReelAnimation[] = Array<ReelAnimation>(5); 
 
     private CellAnimationPrefab:Prefab;
     //初始化UI
@@ -34,6 +38,10 @@ export class WholeSheetView extends Component {
     {
         this.CellAnimationPrefab = cellAnimPrefab;
         this.BindData(model);
+    }
+
+    public SetVisible(value:boolean){
+        this.node.active = value;
     }
 
     //绑定数据
