@@ -1,7 +1,8 @@
 import { _decorator, Component, Node } from 'cc';
 import { TipsView } from '../views/tips/TipsView';
 import { TipsReconnectView } from '../views/tips/TipsReconnectView';
-import { ITpisView } from '../views/tips/ITpisView';
+import { TpisViewBase } from '../views/tips/TpisViewBase';
+
 
 const { ccclass, property } = _decorator;
 
@@ -12,22 +13,30 @@ export class TipsManager extends Component {
 
     public static COMMON_TIPS:number = 0;
     public static RECONNECT_TIPS:number = 1;
-    @property([Component]) 
-    public TipsViews:Component[] = Array(2);
-    public allViews:ITpisView[] = [];
+  
+    private _tipsViews:TpisViewBase[] = [];
+
+
+    @property(TipsView) 
+    public TipsView:TipsView;
+
+    @property(TipsReconnectView) 
+    public TipsReconnectView:TipsReconnectView;
+
     private _prefabPaths:string[] = Array();
     private _callBack1:Function;
     private _callBack2:Function;
     start() {
 
         TipsManager._instance = this;
-        this.TipsViews.forEach(view => {
 
-            let tipView:ITpisView = view as unknown as ITpisView;
-            this.allViews.push(tipView);
-            view.node.active = false;
-            if(tipView.Btn1 != null) tipView.Btn1.node.on(Node.EventType.TOUCH_END, this.onConfrimBtnClick, this);  
-            if(tipView.Btn2 != null) tipView.Btn1.node.on(Node.EventType.TOUCH_END, this.onCancelBtnClick, this);    
+        this._tipsViews.push(this.TipsView);
+        this._tipsViews.push(this.TipsReconnectView);
+        
+        this._tipsViews.forEach(view => {
+            view.Visible(false);
+            if(view.Btn1 != null) view.Btn1.node.on(Node.EventType.TOUCH_END, this.onConfrimBtnClick, this);  
+            if(view.Btn2 != null) view.Btn1.node.on(Node.EventType.TOUCH_END, this.onCancelBtnClick, this);    
         });
 
     }
@@ -48,8 +57,8 @@ export class TipsManager extends Component {
     }
 
     public HideAllTips(){
-        this.allViews.forEach(element => {
-           // element.Visible(false);
+        this._tipsViews.forEach(element => {
+            element.Visible(false);
         });
     }
 
@@ -67,7 +76,7 @@ export class TipsManager extends Component {
         }
         this._callBack1 = null;
         this._callBack2 = null;
-        this.allViews.forEach(element => {
+        this._tipsViews.forEach(element => {
             element.Visible(false);
         });
     }
@@ -81,15 +90,15 @@ export class TipsManager extends Component {
         this._callBack1 = null;
         this._callBack2 = null;
 
-        this.allViews.forEach(element => {
+        this._tipsViews.forEach(element => {
             element.Visible(false);
         });
     }   
 
 
-    private GetTipsByType(type:number):ITpisView{
+    private GetTipsByType(type:number):TpisViewBase{
 
-        return this.allViews[type];
+        return this._tipsViews[type];
     }
     
     

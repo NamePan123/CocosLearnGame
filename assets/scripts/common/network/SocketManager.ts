@@ -31,6 +31,7 @@ export class SocketManager extends Component {
     start() {
         
         SocketManager._instance = this;
+      
     }
 
     update(deltaTime: number) {
@@ -118,7 +119,7 @@ export class SocketManager extends Component {
     private onSocketConnect(){
         
         this.unschedule(this.Reconnect);
-        TipsManager.Instance.HideAllTips();
+      
 
         this._connectStatus = true;
         if(this._connectId === "0"){
@@ -130,7 +131,7 @@ export class SocketManager extends Component {
             GameMessageHandler.Instance.SendVerifyUserToSever();
         }
         else{
-            
+
             this.HandShake(this._connectId);
         }
         console.log("服务器链接上了哦：this._connectId" + this._connectId);

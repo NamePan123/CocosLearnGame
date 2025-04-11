@@ -1,9 +1,10 @@
 import { _decorator, Button, Component, Label, Node } from 'cc';
-import { ITpisView } from './ITpisView';
+import { TpisViewBase } from './TpisViewBase';
+
 const { ccclass, property } = _decorator;
 
 @ccclass('TipsView')
-export class TipsView extends Component  implements ITpisView {
+export class TipsView extends TpisViewBase {
 
         
     @property(Button) 

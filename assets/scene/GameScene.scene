@@ -3442,14 +3442,12 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "TipsViews": [
-      {
-        "__id__": 73
-      },
-      {
-        "__id__": 82
-      }
-    ],
+    "TipsView": {
+      "__id__": 74
+    },
+    "TipsReconnectView": {
+      "__id__": 83
+    },
     "_id": "3et+8jqfdN7b3Y758KqMKS"
   },
   {
