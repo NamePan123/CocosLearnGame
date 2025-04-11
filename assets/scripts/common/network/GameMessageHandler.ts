@@ -100,7 +100,7 @@ export class GameMessageHandler{
         //初始化数据
         if(data.mainCMD == 1 && data.subCMD == 100){
 
-           GameModel.Instance.ParseInitDataFromSever(data.data);
+           GameModel.Instance.ParseInitDataFromSever(data);
         }
         else if(data.mainCMD == 3 && data.subCMD == 2){
 

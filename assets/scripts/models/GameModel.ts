@@ -70,10 +70,26 @@ export class GameModel  {
          this.RenderByIndexNext(refulshView);     
     }
 
-
+    private _totalCount:number;
+    private _openFree:number;
+    private _isStartFree:boolean = false;
+    private _nextGameMode:number;
     private RenderByIndexNext(refulshView:boolean = true):void{
 
         let rotaryData:msg.FruitData = this._datas[this._curIndex];
+
+        if ((rotaryData.openFreeNum && rotaryData.openFreeNum > 0) || rotaryData.type == 1) {
+            this._totalCount = rotaryData.freeNum + rotaryData.openFreeNum
+            if (rotaryData.freeNum > 0) {
+                this._totalCount = this._totalCount - 1;
+            }
+            this._openFree = rotaryData.openFreeNum
+            this._isStartFree = true;
+            if (rotaryData.type == 0) {
+               this._nextGameMode = 1;
+            }
+        }
+
         let data:number[][] = rotaryData.rotary;
         for(let i:number = 0; i < 3; i++){
             let cel = data[i];
@@ -125,7 +141,10 @@ export class GameModel  {
         });
     }
 
-    public ParseInitDataFromSever(data: msg.DataCMD_1_100):void{
+    public ParseInitDataFromSever(dataMsg: msg.S_Game_Messge):void{
+
+      
+        
 
         this.RoundCount = 0;
         this.betScore = data.backUi && data.backUi.betScore || this.betList[10]

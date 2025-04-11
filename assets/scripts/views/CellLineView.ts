@@ -8,7 +8,11 @@ const { ccclass, property } = _decorator;
 @ccclass('CellLineView')
 export class CellLineView extends Component {
 
-     @property(CCInteger) 
+
+    @property(Node) 
+    public HotWinAnim:Node;
+
+    @property(CCInteger) 
     public LineIndex:number = 0;
 
     public get Length():number
@@ -109,6 +113,7 @@ export class CellLineView extends Component {
         });
     }
 
+    
 }
 
 
